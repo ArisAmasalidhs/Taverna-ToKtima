@@ -1,0 +1,49 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff8e1; /* Soft cream background */
+    padding: 10px 20px;
+    border-bottom: 2px solid #e0a800;
+  }
+  
+  .navbar-logo h1 {
+    font-size: 1.8rem;
+    color: #2e2e2e;
+    font-family: 'Georgia', serif;
+  }
+  
+  .navbar-links a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .navbar-search input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .navbar-auth {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-auth button,
+  .navbar-auth a {
+    margin-left: 10px;
+    text-decoration: none;
+    color: #e0a800;
+    font-weight: bold;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .navbar-auth button:hover,
+  .navbar-links a:hover {
+    color: #d18c00;
+  }
+  

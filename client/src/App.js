@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import MenuPage from './pages/MenuPage';
+import ReservationPage from './pages/ReservationPage';
+import ReviewPage from './pages/ReviewPage';
+import LoginRegisterPage from './pages/LoginRegisterPage';
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  const handleLogout = () => {
+    setUser(null);
+    // Add logic to remove user session (if any)
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar user={user} onLogout={handleLogout} />
+      <Routes>
+        <Route path="/menu" element={<MenuPage />} />
+        <Route path="/reservations" element={<ReservationPage />} />
+        <Route path="/reviews" element={<ReviewPage />} />
+        <Route path="/login" element={<LoginRegisterPage setUser={setUser} />} />
+        <Route path="/" element={<h1>Welcome to Το Κτήμα!</h1>} />
+      </Routes>
+    </Router>
   );
 }
 
