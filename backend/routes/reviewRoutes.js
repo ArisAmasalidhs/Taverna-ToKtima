@@ -1,16 +1,12 @@
-const express = require('express');
-const Review = require('../models/Review');
+const express = require("express");
 const router = express.Router();
+const { deleteReview, getAllReviews, createReview } = require("../controllers/reviewController");
 
-// Add a review
-router.post('/', async (req, res) => {
-  const review = new Review(req.body);
-  try {
-    const savedReview = await review.save();
-    res.status(201).json(savedReview);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+// Delete a specific review
+router.delete("/:id", deleteReview);
+
+// Other routes
+router.get("/", getAllReviews);
+router.post("/", createReview);
 
 module.exports = router;
