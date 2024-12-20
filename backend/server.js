@@ -22,11 +22,13 @@ mongoose.connect(process.env.MONGO_URI, {
 const menuRoutes = require('./routes/menuRoutes');
 const reservationRoutes = require('./routes/reservationsRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 // Use routes
 app.use('/api/menu', menuRoutes);
 app.use('/api/reservations', reservationRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use('/api/auth', authRoutes);
 
 // Test route
 app.get('/', (req, res) => {

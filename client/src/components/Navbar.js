@@ -9,10 +9,11 @@ const Navbar = ({ user, onLogout }) => {
         <h1>Το Κτήμα</h1>
       </div>
       <div className="navbar-links">
-        <Link to="/">Home</Link> {/* Home Link */}
+        <Link to="/">Home</Link>
         <Link to="/menu">Menu</Link>
         <Link to="/reservations">Reservations</Link>
         <Link to="/reviews">Reviews</Link>
+        {user && <Link to="/profile">Profile</Link>} {/* Profile Link */}
       </div>
       <div className="navbar-search">
         <input
@@ -23,7 +24,6 @@ const Navbar = ({ user, onLogout }) => {
       <div className="navbar-auth">
         {user ? (
           <>
-            <span>Welcome, {user.name}!</span>
             <button onClick={onLogout}>Log Out</button>
           </>
         ) : (
@@ -35,4 +35,3 @@ const Navbar = ({ user, onLogout }) => {
 };
 
 export default Navbar;
-
