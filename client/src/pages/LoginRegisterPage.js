@@ -14,14 +14,18 @@ const LoginRegisterPage = ({ setUser }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
+
     try {
       const url = isRegistering ? '/api/auth/register' : '/api/auth/login'; // Determine API endpoint
       const { data } = await axios.post(url, form); // Make API call
+      
       setUser(data.user); // Update user state
       localStorage.setItem('token', data.token); // Store the JWT token in localStorage
+
       alert(isRegistering ? 'Registered successfully!' : 'Logged in successfully!');
-      navigate('/'); // Redirect to home page
+      navigate('/profile'); // Redirect to profile page after login/register
     } catch (error) {
+      console.error('Error during login/register:', error.response || error.message); // Debug error
       alert(error.response?.data?.message || 'Something went wrong!');
     }
   };

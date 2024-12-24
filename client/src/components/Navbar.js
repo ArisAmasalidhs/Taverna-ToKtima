@@ -6,7 +6,9 @@ const Navbar = ({ user, onLogout }) => {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <h1>Το Κτήμα</h1>
+        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <h1>Το Κτήμα</h1>
+        </Link>
       </div>
       <div className="navbar-links">
         <Link to="/">Home</Link>

@@ -1,49 +1,51 @@
 const Review = require('../models/Review');
 
-// Get all reviews
+// Get all reviews (public access)
 const getAllReviews = async (req, res) => {
   try {
-    console.log('Fetching all reviews...');
-    const reviews = await Review.find(); // Fetch all reviews from the database
-    res.status(200).json(reviews); // Send the reviews back as JSON
+    const reviews = await Review.find();
+    res.status(200).json(reviews);
   } catch (err) {
     console.error('Error fetching reviews:', err);
     res.status(500).json({ message: 'Error fetching reviews', error: err.message });
   }
 };
 
+// Get reviews for the logged-in user
+const getUserReviews = async (req, res) => {
+  try {
+    const userId = req.user; // Extract userId from auth middleware
+    const reviews = await Review.find({ userId }); // Find reviews created by this user
+    res.status(200).json(reviews);
+  } catch (err) {
+    console.error('Error fetching user reviews:', err);
+    res.status(500).json({ message: 'Error fetching user reviews', error: err.message });
+  }
+};
+
 // Create a new review
 const createReview = async (req, res) => {
   try {
-    console.log('Incoming review payload:', req.body);
     const { customerName, rating, comment } = req.body;
+    const userId = req.user; // Extract userId from auth middleware
 
-    // Validate incoming data
+    // Validate input data
     if (!customerName || !rating || !comment) {
-      console.error('Validation Error: Missing required fields');
       return res.status(400).json({
         message: 'All fields (customerName, rating, comment) are required.',
       });
     }
 
-    // Ensure `rating` is a number within the range 1-5
+    // Validate rating range
     const parsedRating = parseInt(rating, 10);
     if (isNaN(parsedRating) || parsedRating < 1 || parsedRating > 5) {
-      console.error('Validation Error: Invalid rating:', rating);
       return res.status(400).json({
         message: 'Rating must be a number between 1 and 5.',
       });
     }
 
-    // Create and save the review
-    const newReview = new Review({
-      customerName,
-      rating: parsedRating,
-      comment,
-    });
-
+    const newReview = new Review({ customerName, rating: parsedRating, comment, userId });
     const savedReview = await newReview.save();
-    console.log('Review created successfully:', savedReview);
     res.status(201).json(savedReview);
   } catch (err) {
     console.error('Error creating review:', err);
@@ -51,20 +53,65 @@ const createReview = async (req, res) => {
   }
 };
 
-// Delete a review by ID
+// Delete a review by ID (only if the review belongs to the logged-in user)
 const deleteReview = async (req, res) => {
-    try {
-      const reviewId = req.params.id;
-      const deletedReview = await Review.findByIdAndDelete(reviewId);
-  
-      if (!deletedReview) {
-        return res.status(404).json({ message: "Review not found" });
-      }
-  
-      res.status(200).json({ message: "Review deleted successfully" });
-    } catch (err) {
-      console.error("Error deleting review:", err);
-      res.status(500).json({ message: "Error deleting review" });
+  try {
+    const reviewId = req.params.id;
+    const userId = req.user;
+
+    const review = await Review.findById(reviewId);
+    if (!review) {
+      return res.status(404).json({ message: 'Review not found' });
     }
-  };
-module.exports = { getAllReviews, createReview, deleteReview };
+
+    if (review.userId.toString() !== userId) {
+      return res.status(403).json({ message: 'You are not authorized to delete this review' });
+    }
+
+    await Review.findByIdAndDelete(reviewId);
+    res.status(200).json({ message: 'Review deleted successfully' });
+  } catch (err) {
+    console.error('Error deleting review:', err);
+    res.status(500).json({ message: 'Error deleting review', error: err.message });
+  }
+};
+
+// Update a review by ID (only if the review belongs to the logged-in user)
+const updateReview = async (req, res) => {
+  try {
+    const reviewId = req.params.id;
+    const userId = req.user; // Extract userId from auth middleware
+    const { comment, rating } = req.body;
+
+    // Find the review by ID
+    const review = await Review.findById(reviewId);
+    if (!review) {
+      return res.status(404).json({ message: 'Review not found' });
+    }
+
+    // Ensure the logged-in user owns the review
+    if (review.userId.toString() !== userId) {
+      return res.status(403).json({ message: 'You are not authorized to update this review' });
+    }
+
+    // Update the review fields
+    if (comment) review.comment = comment;
+    if (rating) {
+      const parsedRating = parseInt(rating, 10);
+      if (isNaN(parsedRating) || parsedRating < 1 || parsedRating > 5) {
+        return res.status(400).json({
+          message: 'Rating must be a number between 1 and 5.',
+        });
+      }
+      review.rating = parsedRating;
+    }
+
+    const updatedReview = await review.save();
+    res.status(200).json(updatedReview);
+  } catch (err) {
+    console.error('Error updating review:', err);
+    res.status(500).json({ message: 'Error updating review', error: err.message });
+  }
+};
+
+module.exports = { getAllReviews, getUserReviews, createReview, deleteReview, updateReview };

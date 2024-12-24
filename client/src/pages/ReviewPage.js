@@ -33,46 +33,42 @@ const ReviewPage = ({ user }) => {
   // Handle form submission for new reviews
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!user) {
       setErrorMessage('You must be logged in to submit a review.');
       return;
     }
-
+  
     try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setErrorMessage('Authorization token is missing. Please log in again.');
+        return;
+      }
+  
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+  
       const payload = {
         customerName: user.name,
         rating: form.rating,
         comment: form.comment,
+        userId: user.id, // Include userId in the payload
       };
-
-      console.log('Submitting payload:', payload); // Debug payload
-
-      const response = await axios.post('/api/reviews', payload);
+  
+      const response = await axios.post('/api/reviews', payload, config);
       setSuccessMessage('Review submitted successfully!');
       setErrorMessage(null);
       setForm({ comment: '', rating: '' });
-      setReviews([...reviews, response.data]);
+      setReviews([...reviews, response.data]); // Add new review to the list
     } catch (err) {
-      console.error('Error submitting review:', err); // Log detailed error
+      console.error('Error submitting review:', err);
       setSuccessMessage(null);
       setErrorMessage('Failed to submit review. Please try again.');
     }
   };
-
-  // Handle review deletion
-  const handleDeleteReview = async (reviewId) => {
-    try {
-      await axios.delete(`/api/reviews/${reviewId}`); // Send DELETE request
-      setReviews(reviews.filter((review) => review._id !== reviewId)); // Update state
-      setSuccessMessage('Review deleted successfully!');
-      setErrorMessage(null);
-    } catch (err) {
-      console.error('Error deleting review:', err); // Log error
-      setErrorMessage('Failed to delete review. Please try again.');
-      setSuccessMessage(null);
-    }
-  };
+  
 
   return (
     <div className="review-page">
@@ -108,14 +104,12 @@ const ReviewPage = ({ user }) => {
         {reviews.length > 0 ? (
           reviews.map((review) => (
             <div key={review._id} className="review-item">
+              <p>
+                <strong>{review.customerName}</strong> said:
+              </p>
               <p>💬 "{review.comment}"</p>
               <p>⭐ {review.rating}/5</p>
               <p>🕒 {new Date(review.createdAt).toLocaleString()}</p>
-              {user && user.name === review.customerName && (
-                <button onClick={() => handleDeleteReview(review._id)}>
-                  Delete
-                </button>
-              )}
             </div>
           ))
         ) : (

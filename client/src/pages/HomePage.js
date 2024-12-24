@@ -36,7 +36,7 @@ const HomePage = () => {
           <h2>About Us</h2>
           <p>
             Το Κτήμα is a traditional Greek taverna, offering authentic dishes made
-            with the freshest ingredients. Nestled in the heart of [Your Location],
+            with the freshest ingredients. Nestled in the heart of Syros island,
             we bring the flavors of Greece to your table.
           </p>
         </section>

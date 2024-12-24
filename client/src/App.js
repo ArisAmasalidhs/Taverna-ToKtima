@@ -7,28 +7,47 @@ import ReservationPage from './pages/ReservationPage';
 import ReviewPage from './pages/ReviewPage';
 import LoginRegisterPage from './pages/LoginRegisterPage';
 import ProfilePage from './pages/ProfilePage';
+import axios from 'axios';
 
 function App() {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Rehydrate user from localStorage on page load
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
+    const rehydrateUser = async () => {
       try {
-        const userData = JSON.parse(atob(token.split('.')[1]));
-        setUser({
-          id: userData.id,
-          name: userData.name,
-          email: userData.email,
+        const token = localStorage.getItem('token');
+        if (!token) {
+          console.log('No token found. User is not logged in.');
+          setIsLoading(false);
+          return;
+        }
+
+        const decodedToken = JSON.parse(atob(token.split('.')[1]));
+        if (decodedToken.exp * 1000 < Date.now()) {
+          console.log('Token has expired.');
+          localStorage.removeItem('token'); 
+          setIsLoading(false);
+          return;
+        }
+
+        console.log('Token is valid:', decodedToken);
+
+        // Fetch user profile from backend if required
+        const response = await axios.get('/api/auth/user', {
+          headers: { Authorization: `Bearer ${token}` },
         });
+
+        setUser(response.data); 
       } catch (error) {
-        console.error('Invalid token:', error);
-        localStorage.removeItem('token');
+        console.error('Error rehydrating user:', error.message);
+        localStorage.removeItem('token'); 
+      } finally {
+        setIsLoading(false); 
       }
-    }
-    setIsLoading(false); // Ensure loading state is turned off
+    };
+
+    rehydrateUser();
   }, []);
 
   const handleLogout = () => {
@@ -38,9 +57,9 @@ function App() {
 
   const ProtectedRoute = ({ children }) => {
     const location = useLocation();
-    if (isLoading) return null; // Prevent flashing login during loading
+    if (isLoading) return null; 
     if (!user) {
-      localStorage.setItem('redirectPath', location.pathname); // Save current path
+      localStorage.setItem('redirectPath', location.pathname); 
       return <Navigate to="/login" />;
     }
     return children;
@@ -50,12 +69,12 @@ function App() {
     const redirectPath = localStorage.getItem('redirectPath');
     if (redirectPath && user) {
       localStorage.removeItem('redirectPath');
-      window.history.replaceState(null, '', redirectPath); // Restore path without reloading
+      window.history.replaceState(null, '', redirectPath); 
     }
   }, [user]);
 
   if (isLoading) {
-    return <div>Loading...</div>; // Placeholder while verifying token
+    return <div>Loading...</div>; 
   }
 
   return (
