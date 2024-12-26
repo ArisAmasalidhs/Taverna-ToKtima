@@ -39,7 +39,7 @@
   margin: 0 auto;
   z-index: 10; /* Ensure content is above the videos */
   text-align: center;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(172, 168, 168, 0.9);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);

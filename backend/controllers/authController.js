@@ -32,16 +32,16 @@ const loginUser = async (req, res) => {
 // Register User
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password ,role} = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ message: 'User already exists!' });
 
-    const newUser = new User({ name, email, password });
+    const newUser = new User({ name, email, password,role });
     await newUser.save();
 
     const token = generateToken(newUser);
-    res.status(201).json({ token, user: { id: newUser._id, name: newUser.name, email: newUser.email } });
+    res.status(201).json({ token, user: { id: newUser._id, name: newUser.name, email: newUser.email,role:newUser.role } });
   } catch (error) {
     console.error('Error registering user:', error.message);
     res.status(500).json({ message: 'Server error. Please try again later.' });
