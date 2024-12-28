@@ -1,16 +1,12 @@
 const express = require('express');
+const { createReservation, getUserReservations } = require('../controllers/reservationController');
+const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 
-// Example route for adding a reservation
-router.post('/', (req, res) => {
-  // Placeholder: Replace with actual logic to handle reservation
-  res.status(200).json({ message: 'Reservation endpoint is working!' });
-});
+// Create reservation
+router.post('/', authMiddleware, createReservation);
 
-// Example route for fetching all reservations
-router.get('/', (req, res) => {
-  // Placeholder: Replace with logic to fetch reservations from database
-  res.status(200).json({ reservations: [] });
-});
+// Get user reservations
+router.get('/user', authMiddleware, getUserReservations);
 
 module.exports = router;

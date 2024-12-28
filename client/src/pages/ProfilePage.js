@@ -18,8 +18,8 @@ const ProfilePage = ({ user, setUser }) => {
         const token = localStorage.getItem("token");
         const config = { headers: { Authorization: `Bearer ${token}` } };
 
-        // Fetch reservations
-        const reservationsResponse = await axios.get("/api/reservations", config);
+        // Fetch user reservations
+        const reservationsResponse = await axios.get("/api/reservations/user", config); // Use new endpoint
         setReservations(
           Array.isArray(reservationsResponse.data) ? reservationsResponse.data : []
         );
@@ -42,24 +42,24 @@ const ProfilePage = ({ user, setUser }) => {
   // Handle username and password update
   const handleUpdateSettings = async (e) => {
     e.preventDefault();
-  
+
     if (newPassword.trim() === "") {
       alert("Password cannot be empty!");
       return;
     }
-  
+
     if (newPassword !== confirmNewPassword) {
       alert("New passwords do not match!");
       return;
     }
-  
+
     const confirmation = window.confirm("Are you sure you want to update your settings?");
     if (!confirmation) return;
-  
+
     try {
       const token = localStorage.getItem("token");
       const config = { headers: { Authorization: `Bearer ${token}` } };
-  
+
       const response = await axios.put(
         "/api/users/update",
         { username, newPassword },
@@ -74,7 +74,6 @@ const ProfilePage = ({ user, setUser }) => {
       alert(error.response?.data?.message || "Error updating settings!");
     }
   };
-  
 
   // Handle review delete
   const handleDeleteReview = async (reviewId) => {
@@ -167,8 +166,10 @@ const ProfilePage = ({ user, setUser }) => {
         ) : (
           reservations.map((reservation) => (
             <div key={reservation._id} className="reservation">
-              <p>Reservation at: {reservation.date}</p>
-              <p>Guests: {reservation.guests}</p>
+              <p>Date: {new Date(reservation.date).toLocaleDateString()}</p>
+              <p>Time: {reservation.time}</p>
+              <p>Guests: {reservation.numberOfGuests}</p>
+              <p>Notes: {reservation.notes || "No additional notes"}</p>
             </div>
           ))
         )}

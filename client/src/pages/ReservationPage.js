@@ -21,7 +21,12 @@ const ReservationPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/reservations', form);
+      const token = localStorage.getItem('token');
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+  
+      await axios.post('http://localhost:5000/api/reservations', form, config);
       setSuccessMessage('Reservation Successful!');
       setError(null);
       setForm({
@@ -34,10 +39,15 @@ const ReservationPage = () => {
         notes: '',
       });
     } catch (err) {
-      setError('An error occurred while submitting your reservation. Please try again.');
+      if (err.response?.status === 401) {
+        setError('You must be logged in to make a reservation.');
+      } else {
+        setError('An error occurred while submitting your reservation. Please try again.');
+      }
       setSuccessMessage(null);
     }
   };
+  
 
   return (
     <div className="reservation-container">
