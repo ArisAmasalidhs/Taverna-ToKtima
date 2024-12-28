@@ -22,12 +22,10 @@ const ReservationPage = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-  
-      await axios.post('http://localhost:5000/api/reservations', form, config);
-      setSuccessMessage('Reservation Successful!');
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+
+      const response = await axios.post('http://localhost:5000/api/reservations', form, config);
+      setSuccessMessage(response.data.message); // Use server's message
       setError(null);
       setForm({
         name: '',
@@ -39,15 +37,14 @@ const ReservationPage = () => {
         notes: '',
       });
     } catch (err) {
-      if (err.response?.status === 401) {
-        setError('You must be logged in to make a reservation.');
+      if (err.response && err.response.status === 400) {
+        setError(err.response.data.message);
       } else {
         setError('An error occurred while submitting your reservation. Please try again.');
       }
       setSuccessMessage(null);
     }
   };
-  
 
   return (
     <div className="reservation-container">

@@ -19,7 +19,7 @@ const ProfilePage = ({ user, setUser }) => {
         const config = { headers: { Authorization: `Bearer ${token}` } };
 
         // Fetch user reservations
-        const reservationsResponse = await axios.get("/api/reservations/user", config); // Use new endpoint
+        const reservationsResponse = await axios.get("/api/reservations/user", config);
         setReservations(
           Array.isArray(reservationsResponse.data) ? reservationsResponse.data : []
         );
@@ -72,6 +72,24 @@ const ProfilePage = ({ user, setUser }) => {
     } catch (error) {
       console.error("Error updating user:", error);
       alert(error.response?.data?.message || "Error updating settings!");
+    }
+  };
+
+  // Handle reservation deletion
+  const handleDeleteReservation = async (reservationId) => {
+    const confirmation = window.confirm("Are you sure you want to delete this reservation?");
+    if (!confirmation) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+
+      await axios.delete(`/api/reservations/${reservationId}`, config);
+      setReservations(reservations.filter((reservation) => reservation._id !== reservationId));
+      alert("Reservation deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting reservation:", error);
+      alert("Error deleting reservation. Please try again.");
     }
   };
 
@@ -166,10 +184,12 @@ const ProfilePage = ({ user, setUser }) => {
         ) : (
           reservations.map((reservation) => (
             <div key={reservation._id} className="reservation">
-              <p>Date: {new Date(reservation.date).toLocaleDateString()}</p>
-              <p>Time: {reservation.time}</p>
+              <p>Reservation at: {reservation.date} {reservation.time}</p>
               <p>Guests: {reservation.numberOfGuests}</p>
-              <p>Notes: {reservation.notes || "No additional notes"}</p>
+              <p>Status: <strong>{reservation.status}</strong></p>
+              <button onClick={() => handleDeleteReservation(reservation._id)}>
+                Cancel Reservation
+              </button>
             </div>
           ))
         )}
