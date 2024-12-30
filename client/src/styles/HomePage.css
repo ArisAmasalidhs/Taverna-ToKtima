@@ -1,130 +1,157 @@
+
 /* General Styling */
 .homepage {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
+  font-family: Arial, sans-serif;
   background-color: #f9f9f9;
 }
 
-/* Video Containers */
-.video-container {
-  width: 25%;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.video-container video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.left-video {
-  left: 0;
-}
-
-.right-video {
-  right: 0;
-}
-
-/* Center Content */
-.homepage-content {
-  width: 50%;
-  margin: 0 auto;
-  z-index: 10; /* Ensure content is above the videos */
+/* Large Carousel */
+.homepage-large-carousel {
+  margin: 40px 0;
   text-align: center;
-  background: rgba(172, 168, 168, 0.9);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
-/* Hero Section */
-.hero-section {
-  margin-bottom: 20px;
+.homepage-carousel-wrapper {
+  display: flex;
+  position: relative;
+  align-items: center;
+  overflow: hidden;
 }
 
-.hero-content h1 {
-  font-size: 3rem;
-  margin-bottom: 15px;
+.homepage-carousel-item {
+  flex: 0 0 100%;
+  transition: transform 0.5s ease-in-out;
+  text-align: center;
+  position: relative;
 }
 
-.hero-content p {
-  margin-bottom: 20px;
-  font-size: 1.2rem;
+.homepage-carousel-item img {
+  width: 100%;
+  height: auto; 
+  object-fit: contain; 
+  max-height: 400px; 
 }
 
-.hero-content .btn-primary {
-  padding: 10px 20px;
-  background-color: #e0a800;
+.homepage-carousel-text {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Carousel Buttons */
+.homepage-carousel-buttons {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
   color: white;
   border: none;
+  padding: 10px;
   cursor: pointer;
+  font-size: 1.5rem;
+  border-radius: 50%;
 }
 
-.hero-content .btn-primary:hover {
-  background-color: #d18c00;
+.homepage-carousel-buttons:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.homepage-carousel-buttons.prev {
+  left: 20px;
+}
+
+.homepage-carousel-buttons.next {
+  right: 20px;
 }
 
 /* About Section */
-.about-section {
-  padding: 20px;
-  background: transparent;
-}
-
-.about-section h2 {
-  margin-bottom: 20px;
-}
-
-.about-section p {
-  line-height: 1.5;
-  font-size: 1.1rem;
-}
-
-/* Featured Menu Items */
-.featured-menu-section {
-  margin-top: 20px;
-}
-
-.featured-menu-section .menu-cards {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.menu-card {
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  width: 250px;
-  padding: 15px;
+.homepage-about-section {
+  background-color: #f5faff;
+  padding: 50px 20px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.menu-card img {
-  width: 100%;
-  height: auto;
+.homepage-about-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .homepage-about-container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+/* Small Carousel */
+.homepage-small-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.homepage-small-carousel-image {
+  width: 400px;
+  height: 400px;
+  object-fit: cover;
   border-radius: 8px;
 }
 
-/* Reservation Section */
-.reservation-section {
-  margin-top: 20px;
+.homepage-carousel-arrow {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 2rem;
+  padding: 10px;
+  border-radius: 50%;
 }
 
-.reservation-section .btn-primary {
-  margin-top: 10px;
+.homepage-carousel-arrow:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
-/* Customer Reviews */
-.reviews-section {
-  margin-top: 20px;
+/* Footer */
+.homepage-footer {
+  background-color: #333;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.homepage-footer-content {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.homepage-contact,
+.homepage-social {
+  flex: 1;
+  padding: 10px;
+}
+
+.homepage-contact h4,
+.homepage-social h4 {
+  margin-bottom: 10px;
+}
+
+.homepage-social a {
+  display: block;
+  color: #e0a800;
+  margin: 5px 0;
+  text-decoration: none;
+}
+
+.homepage-social a:hover {
+  text-decoration: underline;
 }
