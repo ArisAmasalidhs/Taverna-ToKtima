@@ -4,11 +4,13 @@ import '../styles/HomePage.css';
 import tavernaa from '../assets/tavernaa.jpg';
 import tavernaaa from '../assets/tavernaaa.jpg';
 import tavernaaaa from '../assets/tavernaaaa.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
 
 const HomePage = () => {
   const [topCarouselItems, setTopCarouselItems] = useState([]);
   const [bottomCarouselItems, setBottomCarouselItems] = useState([]);
-  const [smallCarouselItems] = useState([tavernaa, tavernaaa, tavernaaaa]); // Fixed images for small carousel
+  const [smallCarouselItems] = useState([tavernaa, tavernaaa, tavernaaaa]);
   const [currentSmallIndex, setCurrentSmallIndex] = useState(0);
   const [topCarouselIndex, setTopCarouselIndex] = useState(0);
   const [bottomCarouselIndex, setBottomCarouselIndex] = useState(0);
@@ -91,7 +93,6 @@ const HomePage = () => {
       <section className="homepage-about-section">
         <h2>About Greek Taverna</h2>
         <div className="homepage-about-container">
-          {/* About Text */}
           <div className="homepage-about-text">
             <p>
               From its historic and beautiful island to its stunning sea-swept coasts, Syros
@@ -103,7 +104,6 @@ const HomePage = () => {
               the freshest, hand-selected ingredients.
             </p>
           </div>
-          {/* Small Image Carousel */}
           <div className="homepage-small-carousel">
             <button className="homepage-carousel-arrow left" onClick={handleSmallPrev}>
               ❮
@@ -155,21 +155,47 @@ const HomePage = () => {
 
       {/* Footer */}
       <footer className="homepage-footer">
-        <div className="homepage-footer-content">
-          <div className="homepage-contact">
-            <h4>Contact Us</h4>
-            <p>Email: info@taverna.com</p>
-            <p>Phone: +30 123 456 789</p>
-          </div>
-          <div className="homepage-social">
-            <h4>Follow Us</h4>
-            <a href="https://facebook.com">Facebook</a>
-            <a href="https://instagram.com">Instagram</a>
-          </div>
-        </div>
-      </footer>
+  <div className="homepage-footer-content">
+    <div className="homepage-footer-map">
+      <h4>Find Us in Syros</h4>
+      <iframe
+        title="Syros Map"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31224.6675888322!2d24.906444028815014!3d37.44227810000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14a0692d8edbb4b7%3A0x53674760d72e8e88!2sSyros!5e0!3m2!1sen!2sgr!4v1645459178663!5m2!1sen!2sgr"
+        width="300"
+        height="200"
+        style={{ border: 0 }}
+        allowFullScreen=""
+        loading="lazy"
+      ></iframe>
+      <p>Kalomenopoulou 2, Syros</p>
+    </div>
+    <div className="homepage-footer-links">
+      <a href="/reviews">Reviews of To Ktima</a>
+      <a href="/reservations">Reserve a Table</a>
+    </div>
+    <div className="homepage-footer-details">
+      <p>
+        Authentic Greek Comfort Food and Restaurant in Syros | Greek Restaurant
+      </p>
+      <p>Copyright © 2022, To Ktima. All rights reserved.</p>
+      <p>Website crafted by Aristidis Amasalidis.</p>
+    </div>
+    <div className="homepage-social-icons">
+      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+        <FontAwesomeIcon icon={faFacebook} />
+      </a>
+      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+        <FontAwesomeIcon icon={faInstagram} />
+      </a>
+      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+        <FontAwesomeIcon icon={faTwitter} />
+      </a>
+    </div>
+  </div>
+</footer>
     </div>
   );
 };
 
 export default HomePage;
+
