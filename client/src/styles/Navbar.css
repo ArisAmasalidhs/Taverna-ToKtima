@@ -53,7 +53,7 @@
 /* Center Logo */
 .navbar-center-logo {
   position: absolute;
-  left: 49%;
+  left: 48%;
   bottom: -105%;
   transform: translateX(-50%);
 }
