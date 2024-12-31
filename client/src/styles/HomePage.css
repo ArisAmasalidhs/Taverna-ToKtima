@@ -1,4 +1,3 @@
-
 /* General Styling */
 .homepage {
   font-family: Arial, sans-serif;
@@ -7,9 +6,32 @@
 
 /* Large Carousel */
 .homepage-large-carousel {
-  margin: 40px 0;
+  margin: 0;
   text-align: center;
   position: relative;
+  height: 100vh; /* Fullscreen Carousel */
+}
+/* Large Carousel Text Overlay */
+.homepage-carousel-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.homepage-carousel-overlay h2 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  font-family:cursive;
+}
+
+.homepage-carousel-overlay p {
+  font-size: 1.2rem;
 }
 
 .homepage-carousel-wrapper {
@@ -17,6 +39,7 @@
   position: relative;
   align-items: center;
   overflow: hidden;
+  height: 100%;
 }
 
 .homepage-carousel-item {
@@ -28,19 +51,19 @@
 
 .homepage-carousel-item img {
   width: 100%;
-  height: auto; 
-  object-fit: contain; 
-  max-height: 400px; 
+  height: 100%;
+  object-fit: cover;
 }
 
 .homepage-carousel-text {
   position: absolute;
-  bottom: 20px;
-  left: 20px;
+  bottom: 50px;
+  left: 50px;
   color: white;
   background-color: rgba(0, 0, 0, 0.6);
-  padding: 10px;
+  padding: 10px 20px;
   border-radius: 5px;
+  max-width: 400px;
 }
 
 /* Carousel Buttons */
@@ -55,6 +78,7 @@
   cursor: pointer;
   font-size: 1.5rem;
   border-radius: 50%;
+  z-index: 10;
 }
 
 .homepage-carousel-buttons:hover {
@@ -204,6 +228,7 @@
     text-align: left;
   }
 }
+
 .homepage-social-icons {
   display: flex;
   gap: 15px;
@@ -212,12 +237,12 @@
 }
 
 .homepage-social-icons a {
-  color: #e0a800; /* Gold color */
+  color: #e0a800;
   font-size: 1.5rem;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .homepage-social-icons a:hover {
-  color: #fff; /* White color on hover */
+  color: #fff;
 }
