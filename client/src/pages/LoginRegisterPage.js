@@ -19,11 +19,15 @@ const LoginRegisterPage = ({ setUser }) => {
       const url = isRegistering ? '/api/auth/register' : '/api/auth/login'; // Determine API endpoint
       const { data } = await axios.post(url, form); // Make API call
       
-      setUser(data.user); // Update user state
-      localStorage.setItem('token', data.token); // Store the JWT token in localStorage
-
-      alert(isRegistering ? 'Registered successfully!' : 'Logged in successfully!');
-      navigate('/profile'); // Redirect to profile page after login/register
+      if (isRegistering) {
+        alert('Registered successfully! Please login.');
+        setIsRegistering(false); // Switch to login mode
+      } else {
+        setUser(data.user); // Update user state
+        localStorage.setItem('token', data.token); // Store the JWT token in localStorage
+        alert('Logged in successfully!');
+        navigate('/'); // Redirect to homepage after login
+      }
     } catch (error) {
       console.error('Error during login/register:', error.response || error.message); // Debug error
       alert(error.response?.data?.message || 'Something went wrong!');
