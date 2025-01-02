@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import '../styles/HomePage.css';
-import carousel1img from '../assets/carousel1img.jpg';
-import carousel2img from '../assets/carousel2img.jpg';
-import carousel3img from '../assets/carousel3img.jpg';
-import tavernaa from '../assets/tavernaa.jpg';
-import tavernaaa from '../assets/tavernaaa.jpg';
-import tavernaaaa from '../assets/tavernaaaa.jpg';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebook, faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "../styles/HomePage.css";
+import carousel1img from "../assets/carousel1img.jpg";
+import carousel2img from "../assets/carousel2img.jpg";
+import carousel3img from "../assets/carousel3img.jpg";
+import tavernaa from "../assets/tavernaa.jpg";
+import tavernaaa from "../assets/tavernaaa.jpg";
+import tavernaaaa from "../assets/tavernaaaa.jpg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFacebook, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
 
 const HomePage = () => {
   const [topCarouselItems] = useState([
-    { imageUrl: carousel1img, name: 'Authentically Greek', description: 'Experience the true flavors of Greece.' },
-    { imageUrl: carousel2img, name: 'Mediterranean Delights', description: 'Enjoy traditional Mediterranean recipes.' },
-    { imageUrl: carousel3img, name: 'Taste of Syros', description: 'Fresh ingredients from the heart of Syros.' },
+    { imageUrl: carousel1img, name: "Authentically Greek", description: "Experience the true flavors of Greece." },
+    { imageUrl: carousel2img, name: "Mediterranean Delights", description: "Enjoy traditional Mediterranean recipes." },
+    { imageUrl: carousel3img, name: "Taste of Syros", description: "Fresh ingredients from the heart of Syros." },
   ]);
   const [bottomCarouselItems, setBottomCarouselItems] = useState([]);
   const [smallCarouselItems] = useState([tavernaa, tavernaaa, tavernaaaa]);
@@ -26,11 +26,11 @@ const HomePage = () => {
   useEffect(() => {
     const fetchMenuData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/menu');
+        const response = await axios.get("http://localhost:5000/api/menu");
         const menuItems = response.data;
         setBottomCarouselItems(menuItems.slice(3, 6));
       } catch (error) {
-        console.error('Error fetching menu data:', error);
+        console.error("Error fetching menu data:", error);
       }
     };
 
@@ -56,18 +56,6 @@ const HomePage = () => {
     setIndex((prevIndex) => (prevIndex - 1 + items.length) % items.length);
   };
 
-  const handleSmallPrev = () => {
-    setCurrentSmallIndex((prevIndex) =>
-      prevIndex === 0 ? smallCarouselItems.length - 1 : prevIndex - 1
-    );
-  };
-
-  const handleSmallNext = () => {
-    setCurrentSmallIndex((prevIndex) =>
-      prevIndex === smallCarouselItems.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
   return (
     <div className="homepage">
       {/* Large Top Carousel */}
@@ -80,14 +68,7 @@ const HomePage = () => {
             ❮
           </button>
           <div className="homepage-carousel-item">
-            <img
-              src={topCarouselItems[topCarouselIndex]?.imageUrl}
-              alt={topCarouselItems[topCarouselIndex]?.name}
-            />
-            <div className="homepage-carousel-text">
-              <h2>{topCarouselItems[topCarouselIndex]?.name}</h2>
-              <p>{topCarouselItems[topCarouselIndex]?.description}</p>
-            </div>
+            <img src={topCarouselItems[topCarouselIndex]?.imageUrl} alt={topCarouselItems[topCarouselIndex]?.name} />
             <div className="homepage-carousel-overlay">
               <h2>Delicious and Authentic Greek Food</h2>
               <p>Experience the best flavors from Syros, crafted with love.</p>
@@ -107,17 +88,21 @@ const HomePage = () => {
         <h2>About Taverna To Ktima</h2>
         <div className="homepage-about-container">
           <div className="homepage-about-text">
-            <p>
-              From its historic and beautiful island to its stunning sea-swept coasts, Syros is a Greek gem
-              rich in tradition and character.
-            </p>
-            <p>
-              At Το Κτήμα, enjoy fine Greek dining and authentic specialties, all prepared with the freshest,
-              hand-selected ingredients.
-            </p>
+          <p>
+  From its historic and picturesque island to its stunning sea-swept coasts, Syros is a Greek gem rich in tradition, culture, and culinary excellence. As you stroll through the cobblestone streets or admire the sparkling Aegean waters, you'll find yourself immersed in the timeless charm of this Mediterranean paradise.
+</p>
+<p>
+  At <i>Το Κτήμα</i>, we bring this experience to your table. Our menu is a celebration of Greece's culinary heritage, crafted with the finest hand-selected ingredients. From our freshly baked bread to our delicately prepared seafood dishes, every bite is a testament to our dedication to quality and authenticity.
+</p>
+<p>
+  Whether you’re savoring a family recipe passed down through generations or indulging in our chef’s modern take on a Greek classic, each dish at <i>Το Κτήμα</i> tells a story. We invite you to join us for an unforgettable dining experience filled with rich flavors, warm hospitality, and the spirit of Greece.
+</p>
           </div>
           <div className="homepage-small-carousel">
-            <button className="homepage-carousel-arrow left" onClick={handleSmallPrev}>
+            <button
+              className="homepage-carousel-arrow enhanced-arrow left"
+              onClick={() => setCurrentSmallIndex((prevIndex) => (prevIndex === 0 ? smallCarouselItems.length - 1 : prevIndex - 1))}
+            >
               ❮
             </button>
             <img
@@ -125,43 +110,49 @@ const HomePage = () => {
               alt={`Small Carousel ${currentSmallIndex + 1}`}
               className="homepage-small-carousel-image"
             />
-            <button className="homepage-carousel-arrow right" onClick={handleSmallNext}>
+            <button
+              className="homepage-carousel-arrow enhanced-arrow right"
+              onClick={() => setCurrentSmallIndex((prevIndex) => (prevIndex + 1) % smallCarouselItems.length)}
+            >
               ❯
             </button>
           </div>
         </div>
       </section>
 
-      {/* Large Bottom Carousel */}
-      <section className="homepage-large-carousel">
-        <h2>Delightful Greek Dishes</h2>
-        <div className="homepage-carousel-wrapper">
-          <button
-            className="homepage-carousel-buttons prev"
-            onClick={() => handleCarouselPrev(setBottomCarouselIndex, bottomCarouselItems)}
-          >
-            ❮
-          </button>
-          {bottomCarouselItems.length > 0 && (
-            <div className="homepage-carousel-item">
-              <img
-                src={bottomCarouselItems[bottomCarouselIndex]?.imageUrl}
-                alt={bottomCarouselItems[bottomCarouselIndex]?.name}
-              />
-              <div className="homepage-carousel-text">
-                <h3>{bottomCarouselItems[bottomCarouselIndex]?.name}</h3>
-                <p>{bottomCarouselItems[bottomCarouselIndex]?.description}</p>
-              </div>
-            </div>
-          )}
-          <button
-            className="homepage-carousel-buttons next"
-            onClick={() => handleCarouselNext(setBottomCarouselIndex, bottomCarouselItems)}
-          >
-            ❯
-          </button>
-        </div>
-      </section>
+{/* Large Bottom Carousel */}
+<section className="homepage-large-carousel bottom-carousel">
+  <div className="homepage-carousel-wrapper">
+    <a
+      className="homepage-bottom-carousel-link"
+      href="/menu"
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
+      Visit our Menu
+    </a>
+    <button
+      className="homepage-carousel-buttons prev"
+      onClick={() => handleCarouselPrev(setBottomCarouselIndex, bottomCarouselItems)}
+    >
+      ❮
+    </button>
+    {bottomCarouselItems.length > 0 && (
+      <div className="homepage-carousel-item">
+        <img
+          src={bottomCarouselItems[bottomCarouselIndex]?.imageUrl}
+          alt={bottomCarouselItems[bottomCarouselIndex]?.name}
+        />
+      </div>
+    )}
+    <button
+      className="homepage-carousel-buttons next"
+      onClick={() => handleCarouselNext(setBottomCarouselIndex, bottomCarouselItems)}
+    >
+      ❯
+    </button>
+  </div>
+</section>
+
 
       {/* Footer */}
       <footer className="homepage-footer">
@@ -178,12 +169,12 @@ const HomePage = () => {
             <p>Kalomenopoulou 2, Syros</p>
           </div>
           <div className="homepage-footer-links">
-            <a href="/reviews">Reviews of To Ktima</a>
+            <a href="/reviews">Reviews of our restaurant</a>
             <a href="/reservations">Reserve a Table</a>
           </div>
           <div className="homepage-footer-details">
             <p>
-              Authentic Greek Comfort Food and Restaurant in Syros | Greek Restaurant
+              Authentic Greek Comfort Food and Restaurant in Syros | Taverna To Ktima
             </p>
             <p>Copyright © 2022, To Ktima. All rights reserved.</p>
             <p>Website crafted by Aristidis Amasalidis.</p>

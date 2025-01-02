@@ -7,6 +7,7 @@ import ReservationPage from './pages/ReservationPage';
 import ReviewPage from './pages/ReviewPage';
 import LoginRegisterPage from './pages/LoginRegisterPage';
 import ProfilePage from './pages/ProfilePage';
+import Contact from './pages/Contact'; // Import the Contact page
 import axios from 'axios';
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
         const decodedToken = JSON.parse(atob(token.split('.')[1]));
         if (decodedToken.exp * 1000 < Date.now()) {
           console.log('Token has expired.');
-          localStorage.removeItem('token'); 
+          localStorage.removeItem('token');
           setIsLoading(false);
           return;
         }
@@ -38,12 +39,12 @@ function App() {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        setUser(response.data); 
+        setUser(response.data);
       } catch (error) {
         console.error('Error rehydrating user:', error.message);
-        localStorage.removeItem('token'); 
+        localStorage.removeItem('token');
       } finally {
-        setIsLoading(false); 
+        setIsLoading(false);
       }
     };
 
@@ -57,9 +58,9 @@ function App() {
 
   const ProtectedRoute = ({ children }) => {
     const location = useLocation();
-    if (isLoading) return null; 
+    if (isLoading) return null;
     if (!user) {
-      localStorage.setItem('redirectPath', location.pathname); 
+      localStorage.setItem('redirectPath', location.pathname);
       return <Navigate to="/login" />;
     }
     return children;
@@ -69,12 +70,12 @@ function App() {
     const redirectPath = localStorage.getItem('redirectPath');
     if (redirectPath && user) {
       localStorage.removeItem('redirectPath');
-      window.history.replaceState(null, '', redirectPath); 
+      window.history.replaceState(null, '', redirectPath);
     }
   }, [user]);
 
   if (isLoading) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>;
   }
 
   return (
@@ -108,6 +109,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/contact" element={<Contact />} /> {/* Add Contact route */}
       </Routes>
     </Router>
   );

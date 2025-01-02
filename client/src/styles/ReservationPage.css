@@ -1,10 +1,12 @@
+/* Reservation Container */
 .reservation-container {
   max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
+  margin: 100px auto; /* Add top margin to push content below navbar */
+  padding: 50px;
   text-align: center;
 }
 
+/* Form Styling */
 .reservation-form input,
 .reservation-form textarea,
 .reservation-form button {
@@ -26,6 +28,7 @@
   background-color: #d18c00;
 }
 
+/* Success and Error Messages */
 .success-message {
   color: green;
   font-size: 1rem;

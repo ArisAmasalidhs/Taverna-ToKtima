@@ -1,32 +1,63 @@
 /* General Page Styling */
 .profile-page {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    color: #333;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  .profile-page h1 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 30px;
-  }
-  
-  /* Section Styling */
-  .settings-section,
-  .reservations-section,
-  .reviews-section {
-    margin-bottom: 40px;
-  }
-  
-  .settings-section h2,
-  .reservations-section h2,
-  .reviews-section h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    color: #444;
-  }
+  padding: 200px 20px; /* Add top padding to account for the navbar */
+  font-family: Arial, sans-serif;
+  color: #333;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center; /* Center-align content */
+}
+
+.profile-page h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+/* Section Styling */
+.settings-section,
+.reservations-section,
+.reviews-section {
+  margin-bottom: 40px;
+  text-align: left; /* Ensure sections are left-aligned */
+}
+
+.settings-section h2,
+.reservations-section h2,
+.reviews-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+/* Center Empty Messages */
+.reservations-section p,
+.reviews-section p {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #777;
+}
+
+/* Profile Card */
+.profile-card {
+  text-align: center;
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-card h2 {
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.profile-card p {
+  font-size: 1rem;
+  color: #777;
+}
   
   /* Form Styling */
   .settings-section form {
