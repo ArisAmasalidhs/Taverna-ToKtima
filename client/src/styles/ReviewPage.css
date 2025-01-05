@@ -15,7 +15,7 @@
 }
 
 .review-form button {
-  background-color: #e0a800;
+  background-color: #0077b6;
   color: white;
   border: none;
   cursor: pointer;
@@ -23,7 +23,7 @@
 }
 
 .review-form button:hover {
-  background-color: #d18c00;
+  background-color: #91e2f3;
 }
 
 .reviews-list {

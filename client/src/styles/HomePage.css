@@ -303,14 +303,14 @@
 }
 
 .homepage-footer-links a {
-  color: #e0a800;
+  color: #0077b6;
   font-size: 1rem;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .homepage-footer-links a:hover {
-  color: #f2b600;
+  color: #a87ed4;
 }
 
 .homepage-footer-links i {
@@ -343,7 +343,7 @@
 }
 
 .homepage-social-icons a {
-  color: #e0a800;
+  color: #0077b6;
   font-size: 1.5rem;
   text-decoration: none;
   transition: color 0.3s ease;

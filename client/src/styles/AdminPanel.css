@@ -1,0 +1,45 @@
+.admin-panel {
+    padding: 20px;
+  }
+  
+  .admin-panel h1,
+  .admin-panel h2 {
+    text-align: center;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    margin: 0 auto 20px auto;
+  }
+  
+  form input,
+  form button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  form button {
+    background-color: #0077b6;
+    color: white;
+    cursor: pointer;
+  }
+  
+  form button:hover {
+    background-color: #005f8b;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  ul li {
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin: 5px 0;
+  }
+  

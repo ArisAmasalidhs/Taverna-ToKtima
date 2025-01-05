@@ -8,13 +8,29 @@ import tavernaa from "../assets/tavernaa.jpg";
 import tavernaaa from "../assets/tavernaaa.jpg";
 import tavernaaaa from "../assets/tavernaaaa.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebook, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import {
+  faFacebook,
+  faInstagram,
+  faTwitter,
+} from "@fortawesome/free-brands-svg-icons";
 
 const HomePage = () => {
   const [topCarouselItems] = useState([
-    { imageUrl: carousel1img, name: "Authentically Greek", description: "Experience the true flavors of Greece." },
-    { imageUrl: carousel2img, name: "Mediterranean Delights", description: "Enjoy traditional Mediterranean recipes." },
-    { imageUrl: carousel3img, name: "Taste of Syros", description: "Fresh ingredients from the heart of Syros." },
+    {
+      imageUrl: carousel1img,
+      name: "Authentically Greek",
+      description: "Experience the true flavors of Greece.",
+    },
+    {
+      imageUrl: carousel2img,
+      name: "Mediterranean Delights",
+      description: "Enjoy traditional Mediterranean recipes.",
+    },
+    {
+      imageUrl: carousel3img,
+      name: "Taste of Syros",
+      description: "Fresh ingredients from the heart of Syros.",
+    },
   ]);
   const [bottomCarouselItems, setBottomCarouselItems] = useState([]);
   const [smallCarouselItems] = useState([tavernaa, tavernaaa, tavernaaaa]);
@@ -40,13 +56,23 @@ const HomePage = () => {
   // Auto-swiping effect for carousels
   useEffect(() => {
     const interval = setInterval(() => {
-      setTopCarouselIndex((prevIndex) => (prevIndex + 1) % topCarouselItems.length);
-      setBottomCarouselIndex((prevIndex) => (prevIndex + 1) % bottomCarouselItems.length);
-      setCurrentSmallIndex((prevIndex) => (prevIndex + 1) % smallCarouselItems.length);
+      setTopCarouselIndex(
+        (prevIndex) => (prevIndex + 1) % topCarouselItems.length
+      );
+      setBottomCarouselIndex(
+        (prevIndex) => (prevIndex + 1) % bottomCarouselItems.length
+      );
+      setCurrentSmallIndex(
+        (prevIndex) => (prevIndex + 1) % smallCarouselItems.length
+      );
     }, 5000);
 
     return () => clearInterval(interval); // Cleanup on component unmount
-  }, [topCarouselItems.length, bottomCarouselItems.length, smallCarouselItems.length]);
+  }, [
+    topCarouselItems.length,
+    bottomCarouselItems.length,
+    smallCarouselItems.length,
+  ]);
 
   const handleCarouselNext = (setIndex, items) => {
     setIndex((prevIndex) => (prevIndex + 1) % items.length);
@@ -63,12 +89,17 @@ const HomePage = () => {
         <div className="homepage-carousel-wrapper">
           <button
             className="homepage-carousel-buttons prev"
-            onClick={() => handleCarouselPrev(setTopCarouselIndex, topCarouselItems)}
+            onClick={() =>
+              handleCarouselPrev(setTopCarouselIndex, topCarouselItems)
+            }
           >
             ❮
           </button>
           <div className="homepage-carousel-item">
-            <img src={topCarouselItems[topCarouselIndex]?.imageUrl} alt={topCarouselItems[topCarouselIndex]?.name} />
+            <img
+              src={topCarouselItems[topCarouselIndex]?.imageUrl}
+              alt={topCarouselItems[topCarouselIndex]?.name}
+            />
             <div className="homepage-carousel-overlay">
               <h2>Delicious and Authentic Greek Food</h2>
               <p>Experience the best flavors from Syros, crafted with love.</p>
@@ -76,7 +107,9 @@ const HomePage = () => {
           </div>
           <button
             className="homepage-carousel-buttons next"
-            onClick={() => handleCarouselNext(setTopCarouselIndex, topCarouselItems)}
+            onClick={() =>
+              handleCarouselNext(setTopCarouselIndex, topCarouselItems)
+            }
           >
             ❯
           </button>
@@ -85,23 +118,41 @@ const HomePage = () => {
 
       {/* About Section */}
       <section className="homepage-about-section">
-        <h2>About Taverna To Ktima</h2>
+        <h2>About Taverna To Kthma</h2>
         <div className="homepage-about-container">
           <div className="homepage-about-text">
-          <p>
-  From its historic and picturesque island to its stunning sea-swept coasts, Syros is a Greek gem rich in tradition, culture, and culinary excellence. As you stroll through the cobblestone streets or admire the sparkling Aegean waters, you'll find yourself immersed in the timeless charm of this Mediterranean paradise.
-</p>
-<p>
-  At <i>Το Κτήμα</i>, we bring this experience to your table. Our menu is a celebration of Greece's culinary heritage, crafted with the finest hand-selected ingredients. From our freshly baked bread to our delicately prepared seafood dishes, every bite is a testament to our dedication to quality and authenticity.
-</p>
-<p>
-  Whether you’re savoring a family recipe passed down through generations or indulging in our chef’s modern take on a Greek classic, each dish at <i>Το Κτήμα</i> tells a story. We invite you to join us for an unforgettable dining experience filled with rich flavors, warm hospitality, and the spirit of Greece.
-</p>
+            <p>
+              From its historic and picturesque island to its stunning sea-swept
+              coasts, Syros is a Greek gem rich in tradition, culture, and
+              culinary excellence. As you stroll through the cobblestone streets
+              or admire the sparkling Aegean waters, you'll find yourself
+              immersed in the timeless charm of this Mediterranean paradise.
+            </p>
+            <p>
+              At <i>Το Κτήμα</i>, we bring this experience to your table. Our
+              menu is a celebration of Greece's culinary heritage, crafted with
+              the finest hand-selected ingredients. From our freshly baked bread
+              to our delicately prepared seafood dishes, every bite is a
+              testament to our dedication to quality and authenticity.
+            </p>
+            <p>
+              Whether you’re savoring a family recipe passed down through
+              generations or indulging in our chef’s modern take on a Greek
+              classic, each dish at <i>Το Κτήμα</i> tells a story. We invite you
+              to join us for an unforgettable dining experience filled with rich
+              flavors, warm hospitality, and the spirit of Greece.
+            </p>
           </div>
           <div className="homepage-small-carousel">
             <button
               className="homepage-carousel-arrow enhanced-arrow left"
-              onClick={() => setCurrentSmallIndex((prevIndex) => (prevIndex === 0 ? smallCarouselItems.length - 1 : prevIndex - 1))}
+              onClick={() =>
+                setCurrentSmallIndex((prevIndex) =>
+                  prevIndex === 0
+                    ? smallCarouselItems.length - 1
+                    : prevIndex - 1
+                )
+              }
             >
               ❮
             </button>
@@ -112,7 +163,11 @@ const HomePage = () => {
             />
             <button
               className="homepage-carousel-arrow enhanced-arrow right"
-              onClick={() => setCurrentSmallIndex((prevIndex) => (prevIndex + 1) % smallCarouselItems.length)}
+              onClick={() =>
+                setCurrentSmallIndex(
+                  (prevIndex) => (prevIndex + 1) % smallCarouselItems.length
+                )
+              }
             >
               ❯
             </button>
@@ -120,39 +175,42 @@ const HomePage = () => {
         </div>
       </section>
 
-{/* Large Bottom Carousel */}
-<section className="homepage-large-carousel bottom-carousel">
-  <div className="homepage-carousel-wrapper">
-    <a
-      className="homepage-bottom-carousel-link"
-      href="/menu"
-      style={{ textDecoration: "none", color: "inherit" }}
-    >
-      Visit our Menu
-    </a>
-    <button
-      className="homepage-carousel-buttons prev"
-      onClick={() => handleCarouselPrev(setBottomCarouselIndex, bottomCarouselItems)}
-    >
-      ❮
-    </button>
-    {bottomCarouselItems.length > 0 && (
-      <div className="homepage-carousel-item">
-        <img
-          src={bottomCarouselItems[bottomCarouselIndex]?.imageUrl}
-          alt={bottomCarouselItems[bottomCarouselIndex]?.name}
-        />
-      </div>
-    )}
-    <button
-      className="homepage-carousel-buttons next"
-      onClick={() => handleCarouselNext(setBottomCarouselIndex, bottomCarouselItems)}
-    >
-      ❯
-    </button>
-  </div>
-</section>
-
+      {/* Large Bottom Carousel */}
+      <section className="homepage-large-carousel bottom-carousel">
+        <div className="homepage-carousel-wrapper">
+          <a
+            className="homepage-bottom-carousel-link"
+            href="/menu"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            Visit our Menu
+          </a>
+          <button
+            className="homepage-carousel-buttons prev"
+            onClick={() =>
+              handleCarouselPrev(setBottomCarouselIndex, bottomCarouselItems)
+            }
+          >
+            ❮
+          </button>
+          {bottomCarouselItems.length > 0 && (
+            <div className="homepage-carousel-item">
+              <img
+                src={bottomCarouselItems[bottomCarouselIndex]?.imageUrl}
+                alt={bottomCarouselItems[bottomCarouselIndex]?.name}
+              />
+            </div>
+          )}
+          <button
+            className="homepage-carousel-buttons next"
+            onClick={() =>
+              handleCarouselNext(setBottomCarouselIndex, bottomCarouselItems)
+            }
+          >
+            ❯
+          </button>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="homepage-footer">
@@ -174,7 +232,8 @@ const HomePage = () => {
           </div>
           <div className="homepage-footer-details">
             <p>
-              Authentic Greek Comfort Food and Restaurant in Syros | Taverna To Ktima
+              Authentic Greek Comfort Food and Restaurant in Syros | Taverna To
+              Ktima
             </p>
             <p>Copyright © 2022, To Ktima. All rights reserved.</p>
             <p>Website crafted by Aristidis Amasalidis.</p>

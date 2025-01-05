@@ -1,28 +1,24 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
-const authMiddleware = (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
   try {
-    // Extract Authorization header
-    const authHeader = req.header('Authorization');
-    if (!authHeader) {
-      return res.status(401).json({ message: 'No token, authorization denied!' });
-    }
+    const authHeader = req.header("Authorization");
+    if (!authHeader)
+      return res.status(401).json({ message: "No token provided" });
 
-    // Extract token from "Bearer <token>"
-    const token = authHeader.split(' ')[1];
-    if (!token) {
-      return res.status(401).json({ message: 'No token provided!' });
-    }
-
-    // Verify and decode the token
+    const token = authHeader.split(" ")[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded.id; // Attach user ID to the request object
+    req.user = decoded.id; // Attach user ID from token
 
-    // Proceed to the next middleware or route handler
+    const user = await User.findById(req.user); // Fetch user details from DB
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    req.role = user.role; // Attach role to request object for further verification
     next();
-  } catch (error) {
-    console.error('Authorization error:', error.message);
-    return res.status(401).json({ message: 'Token is not valid!' });
+  } catch (err) {
+    console.error("Authorization error:", err.message);
+    res.status(401).json({ message: "Invalid token" });
   }
 };
 

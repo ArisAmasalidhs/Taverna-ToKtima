@@ -7,7 +7,8 @@ import ReservationPage from './pages/ReservationPage';
 import ReviewPage from './pages/ReviewPage';
 import LoginRegisterPage from './pages/LoginRegisterPage';
 import ProfilePage from './pages/ProfilePage';
-import Contact from './pages/Contact'; // Import the Contact page
+import Contact from './pages/Contact';
+import AdminPanel from './pages/AdminPanel'; // Import AdminPanel
 import axios from 'axios';
 
 function App() {
@@ -34,11 +35,11 @@ function App() {
 
         console.log('Token is valid:', decodedToken);
 
-        // Fetch user profile from backend if required
         const response = await axios.get('/api/auth/user', {
           headers: { Authorization: `Bearer ${token}` },
         });
 
+        console.log('Fetched user data:', response.data); // Log user data
         setUser(response.data);
       } catch (error) {
         console.error('Error rehydrating user:', error.message);
@@ -62,6 +63,14 @@ function App() {
     if (!user) {
       localStorage.setItem('redirectPath', location.pathname);
       return <Navigate to="/login" />;
+    }
+    return children;
+  };
+
+  const AdminRoute = ({ children }) => {
+    if (isLoading) return null;
+    if (!user || user.role !== 'admin') {
+      return <Navigate to="/" />;
     }
     return children;
   };
@@ -109,7 +118,15 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/contact" element={<Contact />} /> {/* Add Contact route */}
+        <Route path="/contact" element={<Contact />} />
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminPanel />
+            </AdminRoute>
+          }
+        />
       </Routes>
     </Router>
   );

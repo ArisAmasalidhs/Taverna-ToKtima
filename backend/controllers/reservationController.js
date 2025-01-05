@@ -1,18 +1,14 @@
-const Reservation = require("../models/Reservation");
+const Reservation = require('../models/Reservation');
 
 // Create a reservation
 const createReservation = async (req, res) => {
   try {
     const { name, email, phone, date, time, numberOfGuests, notes } = req.body;
 
-    // Check if user has already reached the reservation limit
+    // Limit active reservations to 3 per user
     const userReservations = await Reservation.find({ user: req.user });
     if (userReservations.length >= 3) {
-      return res
-        .status(400)
-        .json({
-          message: "You can only have up to 3 active reservations at a time.",
-        });
+      return res.status(400).json({ message: 'You can only have up to 3 active reservations.' });
     }
 
     const newReservation = new Reservation({
@@ -24,31 +20,43 @@ const createReservation = async (req, res) => {
       time,
       numberOfGuests,
       notes,
-      status: "Pending", // Default status
+      status: 'Pending', // Default status
     });
 
     const savedReservation = await newReservation.save();
     res.status(201).json(savedReservation);
   } catch (error) {
-    console.error("Error creating reservation:", error.message);
-    res.status(500).json({ message: "Error creating reservation" });
+    console.error('Error creating reservation:', error.message);
+    res.status(500).json({ message: 'Error creating reservation' });
   }
 };
 
-// Get reservations for logged-in user
+// Get reservations for the logged-in user
 const getUserReservations = async (req, res) => {
   try {
     const reservations = await Reservation.find({ user: req.user });
     res.status(200).json(reservations);
   } catch (error) {
-    console.error("Error fetching user reservations:", error.message);
-    res.status(500).json({ message: "Error fetching reservations" });
+    console.error('Error fetching user reservations:', error.message);
+    res.status(500).json({ message: 'Error fetching reservations' });
   }
 };
 
+// Get all reservations (Admin Only)
+const getAllReservations = async (req, res) => {
+  try {
+    const reservations = await Reservation.find().populate('user', 'name email'); // Populate user details
+    res.status(200).json(reservations);
+  } catch (error) {
+    console.error('Error fetching all reservations:', error.message);
+    res.status(500).json({ message: 'Error fetching all reservations' });
+  }
+};
+
+// Update reservation status (Admin Only)
 const updateReservationStatus = async (req, res) => {
   try {
-    const { reservationId, status } = req.body; // Get reservation ID and new status
+    const { reservationId, status } = req.body;
 
     const updatedReservation = await Reservation.findByIdAndUpdate(
       reservationId,
@@ -57,15 +65,17 @@ const updateReservationStatus = async (req, res) => {
     );
 
     if (!updatedReservation) {
-      return res.status(404).json({ message: "Reservation not found" });
+      return res.status(404).json({ message: 'Reservation not found' });
     }
 
     res.status(200).json(updatedReservation);
   } catch (error) {
-    console.error("Error updating reservation status:", error.message);
-    res.status(500).json({ message: "Error updating reservation status" });
+    console.error('Error updating reservation status:', error.message);
+    res.status(500).json({ message: 'Error updating reservation status' });
   }
 };
+
+// Delete a reservation
 const deleteReservation = async (req, res) => {
   try {
     const { reservationId } = req.params;
@@ -76,20 +86,20 @@ const deleteReservation = async (req, res) => {
     });
 
     if (!reservation) {
-      return res
-        .status(404)
-        .json({ message: "Reservation not found or does not belong to you." });
+      return res.status(404).json({ message: 'Reservation not found or does not belong to you.' });
     }
 
-    res.status(200).json({ message: "Reservation deleted successfully." });
+    res.status(200).json({ message: 'Reservation deleted successfully.' });
   } catch (error) {
-    console.error("Error deleting reservation:", error.message);
-    res.status(500).json({ message: "Error deleting reservation" });
+    console.error('Error deleting reservation:', error.message);
+    res.status(500).json({ message: 'Error deleting reservation' });
   }
 };
+
 module.exports = {
   createReservation,
   getUserReservations,
+  getAllReservations,
   updateReservationStatus,
   deleteReservation,
 };
