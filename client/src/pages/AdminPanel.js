@@ -25,30 +25,43 @@ const AdminPanel = () => {
     fetchData();
   }, []);
 
-  const approveReservation = async (id) => {
-    try {
-      await axios.put(`/api/reservations/${id}/approve`);
-      setReservations(reservations.filter((r) => r._id !== id));
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const addMenuItem = async (menuItem) => {
     try {
-      const response = await axios.post("/api/menu", menuItem);
+      const token = localStorage.getItem("token"); // Retrieve token
+      const response = await axios.post("/api/menu", menuItem, {
+        headers: { Authorization: `Bearer ${token}` }, // Include token
+      });
       setMenu([...menu, response.data]);
     } catch (err) {
-      console.error(err);
+      console.error("Error adding menu item:", err);
     }
   };
 
   const addCarouselImage = async (image) => {
     try {
-      const response = await axios.post("/api/carousel", image);
+      const token = localStorage.getItem("token"); // Retrieve token
+      const response = await axios.post("/api/carousel", image, {
+        headers: { Authorization: `Bearer ${token}` }, // Include token
+      });
       setCarousels([...carousels, response.data]);
     } catch (err) {
-      console.error(err);
+      console.error("Error adding carousel image:", err);
+    }
+  };
+
+  const approveReservation = async (id) => {
+    try {
+      const token = localStorage.getItem("token"); // Retrieve token
+      await axios.put(
+        `/api/reservations/approve`,
+        { reservationId: id },
+        {
+          headers: { Authorization: `Bearer ${token}` }, // Include token
+        }
+      );
+      setReservations(reservations.filter((r) => r._id !== id));
+    } catch (err) {
+      console.error("Error approving reservation:", err);
     }
   };
 
@@ -84,28 +97,28 @@ const AdminPanel = () => {
       </section>
 
       <section>
-  <h2>Carousel Management</h2>
-  <form
-    onSubmit={async (e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const newImage = Object.fromEntries(formData.entries());
-      await addCarouselImage(newImage);
-      e.target.reset(); // Clear form
-    }}
-  >
-    <input name="imageUrl" placeholder="Image URL" required />
-    <button type="submit">Add Carousel Image</button>
-  </form>
+        <h2>Carousel Management</h2>
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const newImage = Object.fromEntries(formData.entries());
+            await addCarouselImage(newImage);
+            e.target.reset(); // Clear form
+          }}
+        >
+          <input name="imageUrl" placeholder="Image URL" required />
+          <button type="submit">Add Carousel Image</button>
+        </form>
 
-  <div>
-    {carousels.map((image) => (
-      <div key={image._id}>
-        <img src={image.imageUrl} alt="Carousel" width="200" />
-      </div>
-    ))}
-  </div>
-</section>
+        <div>
+          {carousels.map((image) => (
+            <div key={image._id}>
+              <img src={image.imageUrl} alt="Carousel" width="200" />
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* Pending Reservations */}
       <section>
