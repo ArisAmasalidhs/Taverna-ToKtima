@@ -8,7 +8,7 @@ import ReviewPage from './pages/ReviewPage';
 import LoginRegisterPage from './pages/LoginRegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import Contact from './pages/Contact';
-import AdminPanel from './pages/AdminPanel'; // Import AdminPanel
+import AdminPanel from './pages/AdminPanel';
 import axios from 'axios';
 
 function App() {
@@ -20,26 +20,21 @@ function App() {
       try {
         const token = localStorage.getItem('token');
         if (!token) {
-          console.log('No token found. User is not logged in.');
           setIsLoading(false);
           return;
         }
 
         const decodedToken = JSON.parse(atob(token.split('.')[1]));
         if (decodedToken.exp * 1000 < Date.now()) {
-          console.log('Token has expired.');
           localStorage.removeItem('token');
           setIsLoading(false);
           return;
         }
 
-        console.log('Token is valid:', decodedToken);
-
         const response = await axios.get('/api/auth/user', {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        console.log('Fetched user data:', response.data); // Log user data
         setUser(response.data);
       } catch (error) {
         console.error('Error rehydrating user:', error.message);
@@ -55,6 +50,18 @@ function App() {
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem('token');
+  };
+
+  const handleLogin = async (token) => {
+    try {
+      localStorage.setItem('token', token);
+      const response = await axios.get('/api/auth/user', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUser(response.data);
+    } catch (error) {
+      console.error('Error fetching user after login:', error.message);
+    }
   };
 
   const ProtectedRoute = ({ children }) => {
@@ -93,7 +100,10 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/menu" element={<MenuPage />} />
-        <Route path="/login" element={<LoginRegisterPage setUser={setUser} />} />
+        <Route
+          path="/login"
+          element={<LoginRegisterPage setUser={(user) => handleLogin(user.token)} />}
+        />
         <Route
           path="/reservations"
           element={
@@ -133,3 +143,4 @@ function App() {
 }
 
 export default App;
+

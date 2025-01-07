@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/Navbar.css';
 
@@ -7,6 +7,7 @@ const Navbar = ({ user, onLogout }) => {
   const location = useLocation();
 
   useEffect(() => {
+    console.log('Navbar user prop:', user); // Debug: Check if user prop updates
     const handleScroll = () => {
       if (window.scrollY > 50) {
         setScrolled(true);
@@ -19,7 +20,7 @@ const Navbar = ({ user, onLogout }) => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [user]);
 
   const isStaticBackground = location.pathname !== '/';
 

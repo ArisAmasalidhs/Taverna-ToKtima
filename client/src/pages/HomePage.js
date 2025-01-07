@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/HomePage.css";
-import carousel1img from "../assets/carousel1img.jpg";
-import carousel2img from "../assets/carousel2img.jpg";
-import carousel3img from "../assets/carousel3img.jpg";
-import tavernaa from "../assets/tavernaa.jpg";
-import tavernaaa from "../assets/tavernaaa.jpg";
-import tavernaaaa from "../assets/tavernaaaa.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
@@ -15,42 +9,38 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 const HomePage = () => {
-  const [topCarouselItems] = useState([
-    {
-      imageUrl: carousel1img,
-      name: "Authentically Greek",
-      description: "Experience the true flavors of Greece.",
-    },
-    {
-      imageUrl: carousel2img,
-      name: "Mediterranean Delights",
-      description: "Enjoy traditional Mediterranean recipes.",
-    },
-    {
-      imageUrl: carousel3img,
-      name: "Taste of Syros",
-      description: "Fresh ingredients from the heart of Syros.",
-    },
-  ]);
+  const [topCarouselItems, setTopCarouselItems] = useState([]);
+  const [aboutCarouselItems, setAboutCarouselItems] = useState([]);
   const [bottomCarouselItems, setBottomCarouselItems] = useState([]);
-  const [smallCarouselItems] = useState([tavernaa, tavernaaa, tavernaaaa]);
   const [currentSmallIndex, setCurrentSmallIndex] = useState(0);
   const [topCarouselIndex, setTopCarouselIndex] = useState(0);
   const [bottomCarouselIndex, setBottomCarouselIndex] = useState(0);
 
-  // Fetch menu data for the bottom carousel
+  // Fetch carousel images for all sections
   useEffect(() => {
-    const fetchMenuData = async () => {
+    const fetchCarouselImages = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/menu");
-        const menuItems = response.data;
-        setBottomCarouselItems(menuItems.slice(3, 6));
+        const response = await axios.get(
+          "http://localhost:5000/api/public/carousel"
+        );
+        const images = response.data;
+
+        // Categorize images by section
+        setTopCarouselItems(
+          images.filter((img) => img.carouselSection === "top")
+        );
+        setAboutCarouselItems(
+          images.filter((img) => img.carouselSection === "about")
+        );
+        setBottomCarouselItems(
+          images.filter((img) => img.carouselSection === "bottom")
+        );
       } catch (error) {
-        console.error("Error fetching menu data:", error);
+        console.error("Error fetching carousel images:", error);
       }
     };
 
-    fetchMenuData();
+    fetchCarouselImages();
   }, []);
 
   // Auto-swiping effect for carousels
@@ -63,15 +53,15 @@ const HomePage = () => {
         (prevIndex) => (prevIndex + 1) % bottomCarouselItems.length
       );
       setCurrentSmallIndex(
-        (prevIndex) => (prevIndex + 1) % smallCarouselItems.length
+        (prevIndex) => (prevIndex + 1) % aboutCarouselItems.length
       );
     }, 5000);
 
     return () => clearInterval(interval); // Cleanup on component unmount
   }, [
     topCarouselItems.length,
+    aboutCarouselItems.length,
     bottomCarouselItems.length,
-    smallCarouselItems.length,
   ]);
 
   const handleCarouselNext = (setIndex, items) => {
@@ -95,16 +85,34 @@ const HomePage = () => {
           >
             ❮
           </button>
-          <div className="homepage-carousel-item">
-            <img
-              src={topCarouselItems[topCarouselIndex]?.imageUrl}
-              alt={topCarouselItems[topCarouselIndex]?.name}
-            />
-            <div className="homepage-carousel-overlay">
-              <h2>Delicious and Authentic Greek Food</h2>
-              <p>Experience the best flavors from Syros, crafted with love.</p>
+          {topCarouselItems.length > 0 ? (
+            <div className="homepage-carousel-item">
+              <img
+                src={
+                  topCarouselItems[topCarouselIndex]?.imageUrl ||
+                  "https://via.placeholder.com/800x400"
+                }
+                alt="Top Carousel"
+              />
+              <div className="homepage-carousel-overlay">
+                <h2>
+                  {topCarouselItems[topCarouselIndex]?.title ||
+                    "Explore Authentic Flavors"}
+                </h2>
+                <p>
+                  {topCarouselItems[topCarouselIndex]?.description ||
+                    "Taste the best of Syros."}
+                </p>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="homepage-carousel-item">
+              <img
+                src="https://via.placeholder.com/800x400"
+                alt="Placeholder"
+              />
+            </div>
+          )}
           <button
             className="homepage-carousel-buttons next"
             onClick={() =>
@@ -118,7 +126,7 @@ const HomePage = () => {
 
       {/* About Section */}
       <section className="homepage-about-section">
-        <h2>About Taverna To Kthma</h2>
+        <h2>About Taverna To Ktima</h2>
         <div className="homepage-about-container">
           <div className="homepage-about-text">
             <p>
@@ -149,23 +157,34 @@ const HomePage = () => {
               onClick={() =>
                 setCurrentSmallIndex((prevIndex) =>
                   prevIndex === 0
-                    ? smallCarouselItems.length - 1
+                    ? aboutCarouselItems.length - 1
                     : prevIndex - 1
                 )
               }
             >
               ❮
             </button>
-            <img
-              src={smallCarouselItems[currentSmallIndex]}
-              alt={`Small Carousel ${currentSmallIndex + 1}`}
-              className="homepage-small-carousel-image"
-            />
+            {aboutCarouselItems.length > 0 ? (
+              <img
+                src={
+                  aboutCarouselItems[currentSmallIndex]?.imageUrl ||
+                  "https://via.placeholder.com/400x300"
+                }
+                alt="About Carousel"
+                className="homepage-small-carousel-image"
+              />
+            ) : (
+              <img
+                src="https://via.placeholder.com/400x300"
+                alt="Placeholder About Carousel"
+                className="homepage-small-carousel-image"
+              />
+            )}
             <button
               className="homepage-carousel-arrow enhanced-arrow right"
               onClick={() =>
                 setCurrentSmallIndex(
-                  (prevIndex) => (prevIndex + 1) % smallCarouselItems.length
+                  (prevIndex) => (prevIndex + 1) % aboutCarouselItems.length
                 )
               }
             >
@@ -181,9 +200,20 @@ const HomePage = () => {
           <a
             className="homepage-bottom-carousel-link"
             href="/menu"
-            style={{ textDecoration: "none", color: "inherit" }}
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              backgroundColor: "#fff",
+              padding: "10px 20px",
+              borderRadius: "5px",
+              zIndex: 1,
+            }}
           >
-            Visit our Menu
+            Visit Our Menu
           </a>
           <button
             className="homepage-carousel-buttons prev"
@@ -193,11 +223,21 @@ const HomePage = () => {
           >
             ❮
           </button>
-          {bottomCarouselItems.length > 0 && (
+          {bottomCarouselItems.length > 0 ? (
             <div className="homepage-carousel-item">
               <img
-                src={bottomCarouselItems[bottomCarouselIndex]?.imageUrl}
-                alt={bottomCarouselItems[bottomCarouselIndex]?.name}
+                src={
+                  bottomCarouselItems[bottomCarouselIndex]?.imageUrl ||
+                  "https://via.placeholder.com/800x400"
+                }
+                alt="Bottom Carousel"
+              />
+            </div>
+          ) : (
+            <div className="homepage-carousel-item">
+              <img
+                src="https://via.placeholder.com/800x400"
+                alt="Placeholder"
               />
             </div>
           )}
@@ -235,8 +275,6 @@ const HomePage = () => {
               Authentic Greek Comfort Food and Restaurant in Syros | Taverna To
               Ktima
             </p>
-            <p>Copyright © 2022, To Ktima. All rights reserved.</p>
-            <p>Website crafted by Aristidis Amasalidis.</p>
           </div>
           <div className="homepage-social-icons">
             <a href="https://facebook.com">

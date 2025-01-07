@@ -1,7 +1,8 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const cors = require('cors');
+const express = require("express");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const path = require("path");
 
 // Load environment variables
 dotenv.config();
@@ -16,28 +17,31 @@ app.use(express.json());
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected!'))
-  .catch((err) => console.error('Error connecting to MongoDB:', err));
+  .then(() => console.log("MongoDB connected!"))
+  .catch((err) => console.error("Error connecting to MongoDB:", err));
+
+// Serve static files for uploaded images
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Import Routes
-const userRoutes = require('./routes/userRoutes');
-const menuRoutes = require('./routes/menuRoutes');
-const reservationRoutes = require('./routes/reservationsRoutes');
-const reviewRoutes = require('./routes/reviewRoutes');
-const authRoutes = require('./routes/authRoutes');
-const adminRoutes = require('./routes/adminRoutes'); // Admin routes for admin functionalities
-
+const userRoutes = require("./routes/userRoutes");
+const menuRoutes = require("./routes/menuRoutes");
+const reservationRoutes = require("./routes/reservationsRoutes");
+const reviewRoutes = require("./routes/reviewRoutes");
+const authRoutes = require("./routes/authRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+const publicRoutes = require('./routes/publicRoutes');
 // Define API Routes
-app.use('/api/users', userRoutes);
-app.use('/api/menu', menuRoutes);
-app.use('/api/reservations', reservationRoutes);
-app.use('/api/reviews', reviewRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/admin', adminRoutes); // Ensure only admins can access these routes
-
+app.use("/api/users", userRoutes);
+app.use("/api/menu", menuRoutes);
+app.use("/api/reservations", reservationRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
+app.use('/api/public', publicRoutes);
 // Root Endpoint
-app.get('/', (req, res) => {
-  res.send('Welcome to the Greek Taverna API!');
+app.get("/", (req, res) => {
+  res.send("Welcome to the Greek Taverna API!");
 });
 
 // Start Server

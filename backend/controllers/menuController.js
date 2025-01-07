@@ -13,7 +13,14 @@ const getMenuItems = async (req, res) => {
 // Add a Menu Item (Admin Only)
 const addMenuItem = async (req, res) => {
   try {
-    const menuItem = new Menu(req.body);
+    const { name, description, price, category, imageUrl } = req.body;
+
+    // Validate category
+    if (!["Salads", "Main Course", "Desserts", "Appetizers", "Dips", "Soups"].includes(category)) {
+      return res.status(400).json({ message: 'Invalid category.' });
+    }
+
+    const menuItem = new Menu({ name, description, price, category, imageUrl });
     const savedItem = await menuItem.save();
     res.status(201).json(savedItem);
   } catch (error) {
@@ -35,8 +42,36 @@ const deleteMenuItem = async (req, res) => {
   }
 };
 
+// Edit a Menu Item (Admin Only)
+const editMenuItem = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, description, price, category, imageUrl } = req.body;
+
+    // Validate category
+    if (category && !["Salads", "Main Course", "Desserts", "Appetizers", "Dips", "Soups"].includes(category)) {
+      return res.status(400).json({ message: 'Invalid category.' });
+    }
+
+    const updatedItem = await Menu.findByIdAndUpdate(
+      id,
+      { name, description, price, category, imageUrl },
+      { new: true }
+    );
+
+    if (!updatedItem) {
+      return res.status(404).json({ message: 'Menu item not found.' });
+    }
+
+    res.status(200).json(updatedItem);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to update menu item.' });
+  }
+};
+
 module.exports = {
   getMenuItems,
   addMenuItem,
   deleteMenuItem,
+  editMenuItem,
 };

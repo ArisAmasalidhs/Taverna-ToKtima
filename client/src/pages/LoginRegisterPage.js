@@ -1,35 +1,36 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/login.css'; // Ensure your CSS path is correct
+import '../styles/login.css';
 
 const LoginRegisterPage = ({ setUser }) => {
-  const [isRegistering, setIsRegistering] = useState(false); // Toggle between Login and Register
-  const [form, setForm] = useState({ name: '', email: '', password: '' }); // Form state
-  const navigate = useNavigate(); // Initialize useNavigate for redirection
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value }); // Update form fields
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
 
     try {
-      const url = isRegistering ? '/api/auth/register' : '/api/auth/login'; // Determine API endpoint
-      const { data } = await axios.post(url, form); // Make API call
-      
+      const url = isRegistering ? '/api/auth/register' : '/api/auth/login';
+      const { data } = await axios.post(url, form);
+
       if (isRegistering) {
         alert('Registered successfully! Please login.');
-        setIsRegistering(false); // Switch to login mode
+        setIsRegistering(false);
       } else {
-        setUser(data.user); // Update user state
-        localStorage.setItem('token', data.token); // Store the JWT token in localStorage
-        alert('Logged in successfully!');
-        navigate('/'); // Redirect to homepage after login
+        const user = data.user;
+        setUser(user);
+        localStorage.setItem('token', data.token);
+        alert(`Logged in successfully as ${user.role === 'admin' ? 'Admin' : 'User'}!`);
+        navigate('/');
       }
     } catch (error) {
-      console.error('Error during login/register:', error.response || error.message); // Debug error
+      console.error('Error during login/register:', error.response || error.message);
       alert(error.response?.data?.message || 'Something went wrong!');
     }
   };

@@ -2,7 +2,7 @@ const express = require('express');
 const {
   createReservation,
   getUserReservations,
-  getAllReservations,
+  getAllReservations, // New function
   updateReservationStatus,
   deleteReservation,
 } = require('../controllers/reservationController');
@@ -14,16 +14,16 @@ const router = express.Router();
 // Create reservation
 router.post('/', authMiddleware, createReservation);
 
-// Get reservations for the logged-in user
+// Get all reservations (Admin only)
+router.get('/', authMiddleware, adminMiddleware, getAllReservations);
+
+// Get user reservations
 router.get('/user', authMiddleware, getUserReservations);
 
-// Get all reservations (Admin Only)
-router.get('/all', authMiddleware, adminMiddleware, getAllReservations);
+// Approve reservation (Admin only)
+router.put('/:id/approve', authMiddleware, adminMiddleware, updateReservationStatus);
 
-// Update reservation status (Admin Only)
-router.put('/status', authMiddleware, adminMiddleware, updateReservationStatus);
-
-// Delete a reservation
+// Delete reservation
 router.delete('/:reservationId', authMiddleware, deleteReservation);
 
 module.exports = router;
