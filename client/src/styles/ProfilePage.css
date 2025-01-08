@@ -58,105 +58,129 @@
   font-size: 1rem;
   color: #777;
 }
-  
-  /* Form Styling */
-  .settings-section form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .settings-section input {
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .settings-section button {
-    padding: 10px 20px;
-    background-color: #0077b6;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .settings-section button:hover {
-    background-color: #d18c00;
-  }
-  
-  /* Reservations Styling */
-  .reservation {
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .reservation p {
-    margin: 5px 0;
-  }
-  
-  /* Reviews Styling */
-  .review {
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .review p {
-    margin: 5px 0;
-    font-size: 1rem;
-    color: #555;
-  }
-  
-  .review button {
-    padding: 8px 15px;
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .review button:hover {
-    background-color: #c0392b;
-  }
-  
-  /* Center Empty Messages */
-  .reservations-section p,
-  .reviews-section p {
-    text-align: center;
-    font-size: 1.1rem;
-    color: #777;
-  }
-  .profile-card {
-    text-align: center;
-    margin: 20px 0;
+
+/* Profile Picture */
+.profile-card img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #0077b6;
+  object-fit: cover;
+  margin-top: 15px;
+}
+
+/* Form Styling */
+.settings-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.settings-section input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.settings-section button {
+  padding: 10px 20px;
+  background-color: #0077b6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.settings-section button:hover {
+  background-color: #005f8b;
+}
+
+/* Reservations Styling */
+.reservation {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.reservation p {
+  margin: 5px 0;
+}
+
+/* Reviews Styling */
+.review {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.3s ease-in-out;
+}
+
+.review:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.review p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.review button {
+  padding: 8px 15px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.review button:hover {
+  background-color: #c0392b;
+}
+
+.profile-picture {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 10px auto;
+  display: block;
+  border: 2px solid #ddd;
+}
+
+/* Profile Picture Placeholder for Users without an Image */
+.profile-card img.default-placeholder {
+  background-color: #e9ecef;
+  color: #6c757d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  width: 120px;
+  height: 120px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .profile-page {
     padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
-  
-  .profile-card h2 {
-    font-size: 1.8rem;
-    color: #333;
+
+  .settings-section,
+  .reservations-section,
+  .reviews-section {
+    text-align: center;
   }
-  
-  .profile-card p {
-    font-size: 1rem;
-    color: #777;
-  }
-  
+}

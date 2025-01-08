@@ -1,37 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "../styles/ProfilePage.css";
 
 const ProfilePage = ({ user, setUser }) => {
-  const [reservations, setReservations] = useState([]); // User reservations
-  const [reviews, setReviews] = useState([]); // User reviews
-  const [editingReviewId, setEditingReviewId] = useState(null); // Track review being edited
-  const [editForm, setEditForm] = useState({ comment: "", rating: "" }); // Edit form state
+  const [reservations, setReservations] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [editingReviewId, setEditingReviewId] = useState(null);
+  const [editForm, setEditForm] = useState({ comment: "", rating: "" });
   const [username, setUsername] = useState(user.name);
-  const [newPassword, setNewPassword] = useState(""); // New password
-  const [confirmNewPassword, setConfirmNewPassword] = useState(""); // Confirm new password
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [profilePicture, setProfilePicture] = useState(user.profilePicture || null);
+  const fileInput = useRef(null);
 
-  // Fetch user's reservations and reviews
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token");
         const config = { headers: { Authorization: `Bearer ${token}` } };
 
-        // Fetch user reservations
         const reservationsResponse = await axios.get("/api/reservations/user", config);
-        setReservations(
-          Array.isArray(reservationsResponse.data) ? reservationsResponse.data : []
-        );
+        setReservations(reservationsResponse.data || []);
 
-        // Fetch user's reviews
         const reviewsResponse = await axios.get("/api/reviews/user", config);
-        setReviews(
-          Array.isArray(reviewsResponse.data) ? reviewsResponse.data : []
-        );
+        setReviews(reviewsResponse.data || []);
       } catch (error) {
         console.error("Error fetching user data:", error);
-        setReservations([]); // Reset to an empty array in case of an error
+        setReservations([]);
         setReviews([]);
       }
     };
@@ -39,61 +34,34 @@ const ProfilePage = ({ user, setUser }) => {
     fetchUserData();
   }, []);
 
-  // Handle username and password update
   const handleUpdateSettings = async (e) => {
     e.preventDefault();
 
-    if (newPassword.trim() === "") {
-      alert("Password cannot be empty!");
-      return;
-    }
-
-    if (newPassword !== confirmNewPassword) {
+    if (newPassword && newPassword !== confirmNewPassword) {
       alert("New passwords do not match!");
       return;
     }
 
-    const confirmation = window.confirm("Are you sure you want to update your settings?");
-    if (!confirmation) return;
-
     try {
+      const formData = new FormData();
+      formData.append("username", username);
+      if (newPassword) formData.append("newPassword", newPassword);
+      if (fileInput.current.files[0]) formData.append("profilePicture", fileInput.current.files[0]);
+
       const token = localStorage.getItem("token");
       const config = { headers: { Authorization: `Bearer ${token}` } };
 
-      const response = await axios.put(
-        "/api/users/update",
-        { username, newPassword },
-        config
-      );
-      setUser({ ...user, name: response.data.name }); // Update user state
-      alert("Settings updated successfully!");
-      setNewPassword(""); // Clear password fields
-      setConfirmNewPassword("");
+      const response = await axios.put("/api/users/update", formData, config);
+
+      setUser(response.data);
+      setProfilePicture(response.data.profilePicture);
+      alert("Profile updated successfully!");
     } catch (error) {
-      console.error("Error updating user:", error);
-      alert(error.response?.data?.message || "Error updating settings!");
+      console.error("Error updating profile:", error);
+      alert(error.response?.data?.message || "Error updating profile!");
     }
   };
 
-  // Handle reservation deletion
-  const handleDeleteReservation = async (reservationId) => {
-    const confirmation = window.confirm("Are you sure you want to delete this reservation?");
-    if (!confirmation) return;
-
-    try {
-      const token = localStorage.getItem("token");
-      const config = { headers: { Authorization: `Bearer ${token}` } };
-
-      await axios.delete(`/api/reservations/${reservationId}`, config);
-      setReservations(reservations.filter((reservation) => reservation._id !== reservationId));
-      alert("Reservation deleted successfully!");
-    } catch (error) {
-      console.error("Error deleting reservation:", error);
-      alert("Error deleting reservation. Please try again.");
-    }
-  };
-
-  // Handle review delete
   const handleDeleteReview = async (reviewId) => {
     const confirmation = window.confirm("Are you sure you want to delete this review?");
     if (!confirmation) return;
@@ -111,13 +79,11 @@ const ProfilePage = ({ user, setUser }) => {
     }
   };
 
-  // Start editing a review
   const startEditReview = (review) => {
-    setEditingReviewId(review._id); // Set the review being edited
-    setEditForm({ comment: review.comment, rating: review.rating }); // Prefill form
+    setEditingReviewId(review._id);
+    setEditForm({ comment: review.comment, rating: review.rating });
   };
 
-  // Handle review update
   const handleUpdateReview = async (e) => {
     e.preventDefault();
     try {
@@ -126,13 +92,12 @@ const ProfilePage = ({ user, setUser }) => {
 
       const response = await axios.put(`/api/reviews/${editingReviewId}`, editForm, config);
 
-      // Update reviews in the state
       setReviews(
         reviews.map((review) =>
           review._id === editingReviewId ? { ...review, ...response.data } : review
         )
       );
-      setEditingReviewId(null); // Exit edit mode
+      setEditingReviewId(null);
       alert("Review updated successfully!");
     } catch (error) {
       console.error("Error updating review:", error);
@@ -145,9 +110,17 @@ const ProfilePage = ({ user, setUser }) => {
       <section className="profile-card">
         <h2>{user.name}</h2>
         <p>{user.email}</p>
+        {profilePicture ? (
+          <img
+            src={`http://localhost:5000/uploads/${profilePicture}`}
+            alt="Profile"
+            className="profile-picture"
+          />
+        ) : (
+          <p>No profile picture uploaded.</p>
+        )}
       </section>
 
-      {/* Update User Settings */}
       <section className="settings-section">
         <h2>Update Your Settings</h2>
         <form onSubmit={handleUpdateSettings}>
@@ -163,20 +136,18 @@ const ProfilePage = ({ user, setUser }) => {
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             placeholder="New Password"
-            required
           />
           <input
             type="password"
             value={confirmNewPassword}
             onChange={(e) => setConfirmNewPassword(e.target.value)}
             placeholder="Confirm New Password"
-            required
           />
+          <input type="file" ref={fileInput} />
           <button type="submit">Save Changes</button>
         </form>
       </section>
 
-      {/* User Reservations */}
       <section className="reservations-section">
         <h2>Your Reservations</h2>
         {reservations.length === 0 ? (
@@ -184,18 +155,18 @@ const ProfilePage = ({ user, setUser }) => {
         ) : (
           reservations.map((reservation) => (
             <div key={reservation._id} className="reservation">
-              <p>Reservation at: {reservation.date} {reservation.time}</p>
+              <p>
+                Reservation at: {reservation.date} {reservation.time}
+              </p>
               <p>Guests: {reservation.numberOfGuests}</p>
-              <p>Status: <strong>{reservation.status}</strong></p>
-              <button onClick={() => handleDeleteReservation(reservation._id)}>
-                Cancel Reservation
-              </button>
+              <p>
+                Status: <strong>{reservation.status}</strong>
+              </p>
             </div>
           ))
         )}
       </section>
 
-      {/* User Reviews */}
       <section className="reviews-section">
         <h2>Your Reviews</h2>
         {reviews.length === 0 ? (

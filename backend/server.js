@@ -25,13 +25,13 @@ mongoose
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Import Routes
-const userRoutes = require("./routes/userRoutes");
+const userRoutes = require("./routes/userRoutes"); // Ensure this path is correct
 const menuRoutes = require("./routes/menuRoutes");
 const reservationRoutes = require("./routes/reservationsRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const authRoutes = require("./routes/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
-const publicRoutes = require('./routes/publicRoutes');
+const publicRoutes = require("./routes/publicRoutes"); // Ensure this file exists
 
 // Define API Routes
 app.use("/api/users", userRoutes);
@@ -40,7 +40,7 @@ app.use("/api/reservations", reservationRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
-app.use('/api/public', publicRoutes);
+app.use("/api/public", publicRoutes);
 
 // Test Email Endpoint
 app.get("/api/test-email", async (req, res) => {

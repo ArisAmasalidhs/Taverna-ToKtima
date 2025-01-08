@@ -1,9 +1,11 @@
-const express = require('express');
-const { updateUser } = require('../controllers/userControllers'); // Corrected path
-const authMiddleware = require('../middleware/authMiddleware');
+const express = require("express");
+const { updateUser } = require("../controllers/userControllers"); // Correct path to userController
+const authMiddleware = require("../middleware/authMiddleware");
+const upload = require("../middleware/multerConfig"); // Correct path to multerConfig
+
 const router = express.Router();
 
-// Update user settings
-router.put('/update', authMiddleware, updateUser);
+// Update user profile with file upload
+router.put("/update", authMiddleware, upload.single("profilePicture"), updateUser);
 
 module.exports = router;
