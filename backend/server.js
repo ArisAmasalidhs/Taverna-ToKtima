@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const path = require("path");
+const nodemailer = require("nodemailer");
 
 // Load environment variables
 dotenv.config();
@@ -31,6 +32,7 @@ const reviewRoutes = require("./routes/reviewRoutes");
 const authRoutes = require("./routes/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const publicRoutes = require('./routes/publicRoutes');
+
 // Define API Routes
 app.use("/api/users", userRoutes);
 app.use("/api/menu", menuRoutes);
@@ -39,9 +41,41 @@ app.use("/api/reviews", reviewRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use('/api/public', publicRoutes);
+
+// Test Email Endpoint
+app.get("/api/test-email", async (req, res) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    const info = await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: "test-recipient@example.com", // Replace with a valid recipient email
+      subject: "Test Email",
+      text: "This is a test email from the Greek Taverna API!",
+    });
+
+    console.log("Email sent:", info.response);
+    res.status(200).send("Test email sent successfully.");
+  } catch (error) {
+    console.error("Error sending test email:", error);
+    res.status(500).send("Error sending test email.");
+  }
+});
+
 // Root Endpoint
 app.get("/", (req, res) => {
   res.send("Welcome to the Greek Taverna API!");
+});
+
+// 404 Error Handling for Missing Routes
+app.use((req, res) => {
+  res.status(404).json({ message: "Endpoint not found." });
 });
 
 // Start Server

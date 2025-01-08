@@ -8,32 +8,58 @@
   object-fit: cover;
   z-index: -1; /* Place video behind the content */
   filter: blur(5px);
+  opacity: 0.8; /* Slight dim effect */
 }
 
+/* Main Container */
 .menu-container {
-  padding: 20px;
+  padding: 60px;
+  background: rgba(245, 245, 245, 0.8); /* Light grey with slight opacity */
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px); /* Apply blur effect */
+  margin: 20px auto;
+  max-width: 1200px;
 }
 
+/* Title Section */
 .menu-title {
   text-align: center;
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin-bottom: 30px;
+  font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for pop effect */
 }
 
+/* Section Styling */
 .menu-section {
   margin-bottom: 40px;
+  padding: 20px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.9); /* Slightly lighter background */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Category Headers */
 .menu-category {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   text-align: left;
   margin: 20px 0;
   color: #0077b6;
   text-transform: uppercase;
-  border-bottom: 2px solid #ddd;
-  padding-bottom: 5px;
+  padding-bottom: 10px;
+  background: linear-gradient(to right, #0077b6, #00b4d8);
+  color: white;
+  padding: 5px 15px;
+  border-radius: 5px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Add subtle text shadow */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* Slight shadow for depth */
 }
 
+/* Menu Card Grid */
 .menu-cards {
   display: flex;
   flex-wrap: wrap;
@@ -41,20 +67,66 @@
   gap: 20px; 
 }
 
+/* Individual Menu Cards */
 .menu-card {
-  width: 300px; 
+  width: 300px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.3s ease-in-out;
+  background: rgba(255, 255, 255, 0.9);
+  overflow: hidden; /* Ensure images and content fit within the card */
 }
 
 .menu-card:hover {
   transform: scale(1.05); /* Slight zoom on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
 }
 
 .menu-card img {
-  float: left;
-    width:  34vh;
-    height: 350px;
-    object-fit: cover;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd; /* Separation line between image and content */
+}
+
+.menu-card-content {
+  padding: 15px;
+  text-align: center;
+}
+
+.menu-card-content h3 {
+  font-size: 1.4rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.menu-card-content p {
+  font-size: 1rem;
+  color: #666;
+}
+
+.menu-card-content .price {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #28a745;
+  margin-top: 10px;
+}
+
+/* Add responsiveness for smaller screens */
+@media (max-width: 768px) {
+  .menu-container {
+    padding: 15px;
+  }
+
+  .menu-card {
+    width: 90%; /* Full width on small screens */
+  }
+
+  .menu-title {
+    font-size: 2rem;
+  }
+
+  .menu-category {
+    font-size: 1.5rem;
+  }
 }

@@ -22,22 +22,20 @@ const AdminPanel = () => {
   // Fetch carousel images
   const fetchCarouselImages = async () => {
     try {
-      const response = await axios.get("/api/admin/carousel", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      const response = await axios.get("/api/admin/carousel");
       setCarousels(response.data);
     } catch (err) {
       console.error("Error fetching carousel images:", err);
     }
   };
 
-  // Fetch pending reservations
+  // Fetch reservations
   const fetchReservations = async () => {
     try {
-      const response = await axios.get("/api/reservations?status=pending", {
+      const response = await axios.get("/api/reservations", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-      setReservations(response.data);
+      setReservations(response.data.filter((res) => res.status === "Pending"));
     } catch (err) {
       console.error("Error fetching reservations:", err);
     }
@@ -52,9 +50,7 @@ const AdminPanel = () => {
 
   const addMenuItem = async (menuItem) => {
     try {
-      await axios.post("/api/menu", menuItem, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      await axios.post("/api/menu", menuItem);
       fetchMenuItems(); // Re-fetch menu items
     } catch (err) {
       console.error("Error adding menu item:", err);
@@ -63,9 +59,7 @@ const AdminPanel = () => {
 
   const editMenuItem = async (id, updatedItem) => {
     try {
-      await axios.put(`/api/menu/${id}`, updatedItem, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      await axios.put(`/api/menu/${id}`, updatedItem);
       fetchMenuItems(); // Re-fetch menu items
     } catch (err) {
       console.error("Error editing menu item:", err);
@@ -74,9 +68,7 @@ const AdminPanel = () => {
 
   const deleteMenuItem = async (id) => {
     try {
-      await axios.delete(`/api/menu/${id}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      await axios.delete(`/api/menu/${id}`);
       fetchMenuItems(); // Re-fetch menu items
     } catch (err) {
       console.error("Error deleting menu item:", err);
@@ -86,10 +78,7 @@ const AdminPanel = () => {
   const addCarouselImage = async (formData) => {
     try {
       const response = await axios.post("/api/admin/carousel", formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
       console.log("Added image:", response.data);
       fetchCarouselImages(); // Re-fetch carousel images
@@ -100,12 +89,44 @@ const AdminPanel = () => {
 
   const deleteCarouselImage = async (id) => {
     try {
-      await axios.delete(`/api/admin/carousel/${id}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      await axios.delete(`/api/admin/carousel/${id}`);
       fetchCarouselImages(); // Re-fetch carousel images
     } catch (err) {
       console.error("Error deleting carousel image:", err);
+    }
+  };
+
+  const confirmReservation = async (id) => {
+    try {
+      await axios.put(
+        `/api/reservations/${id}/status`,
+        { status: "Confirmed" },
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+      );
+      alert("Reservation confirmed and email sent!");
+      fetchReservations(); // Re-fetch reservations
+    } catch (err) {
+      console.error("Error confirming reservation:", err);
+    }
+  };
+
+  const cancelReservation = async (id) => {
+    try {
+      await axios.put(
+        `/api/reservations/${id}/status`,
+        { status: "Rejected" },
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+      );
+      alert("Reservation canceled and email sent!");
+      fetchReservations(); // Re-fetch reservations
+    } catch (err) {
+      console.error("Error canceling reservation:", err);
+    }
+  };
+
+  const handleImageError = (e) => {
+    if (!e.target.src.includes("/default-placeholder.png")) {
+      e.target.src = "/default-placeholder.png";
     }
   };
 
@@ -186,12 +207,35 @@ const AdminPanel = () => {
         <div>
           {carousels.map((image) => (
             <div key={image._id}>
-              <img src={`/uploads/${image.imageUrl}`} alt="Carousel" width="200" />
+              <img
+                src={`/uploads/${image.imageUrl}`}
+                alt="Carousel"
+                width="200"
+                onError={handleImageError}
+              />
               <p>{image.carouselSection}</p>
               <button onClick={() => deleteCarouselImage(image._id)}>Delete</button>
             </div>
           ))}
         </div>
+      </section>
+
+      {/* Pending Reservations */}
+      <section>
+        <h2>Pending Reservations</h2>
+        {reservations.length === 0 && <p>No pending reservations.</p>}
+        {reservations.map((reservation) => (
+          <div key={reservation._id} className="reservation-card">
+            <p>Name: {reservation.name}</p>
+            <p>Email: {reservation.email}</p>
+            <p>Phone: {reservation.phone}</p>
+            <p>Date: {reservation.date}</p>
+            <p>Time: {reservation.time}</p>
+            <p>Guests: {reservation.numberOfGuests}</p>
+            <button onClick={() => confirmReservation(reservation._id)}>Confirm</button>
+            <button onClick={() => cancelReservation(reservation._id)}>Cancel</button>
+          </div>
+        ))}
       </section>
     </div>
   );

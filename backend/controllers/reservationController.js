@@ -1,18 +1,18 @@
 const Reservation = require('../models/Reservation');
+const nodemailer = require('nodemailer');
 
 // Create a reservation
 const createReservation = async (req, res) => {
   try {
     const { name, email, phone, date, time, numberOfGuests, notes } = req.body;
 
-    // Limit active reservations to 3 per user
     const userReservations = await Reservation.find({ user: req.user });
     if (userReservations.length >= 3) {
       return res.status(400).json({ message: 'You can only have up to 3 active reservations.' });
     }
 
     const newReservation = new Reservation({
-      user: req.user, // Attach the user ID from the token
+      user: req.user,
       name,
       email,
       phone,
@@ -20,7 +20,7 @@ const createReservation = async (req, res) => {
       time,
       numberOfGuests,
       notes,
-      status: 'Pending', // Default status
+      status: 'Pending',
     });
 
     const savedReservation = await newReservation.save();
@@ -53,10 +53,11 @@ const getAllReservations = async (req, res) => {
   }
 };
 
-// Update reservation status (Admin Only)
+// Update reservation status and send notification (Admin Only)
 const updateReservationStatus = async (req, res) => {
   try {
-    const { reservationId, status } = req.body;
+    const { status } = req.body;
+    const { reservationId } = req.params;
 
     const updatedReservation = await Reservation.findByIdAndUpdate(
       reservationId,
@@ -67,6 +68,24 @@ const updateReservationStatus = async (req, res) => {
     if (!updatedReservation) {
       return res.status(404).json({ message: 'Reservation not found' });
     }
+
+    // Send email notification to the client
+    const transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: updatedReservation.email,
+      subject: `Reservation Status Update`,
+      text: `Hello ${updatedReservation.name},\n\nYour reservation for ${updatedReservation.date} at ${updatedReservation.time} has been ${status}.\n\nThank you for choosing our restaurant.\n\nBest regards,\nThe Team`,
+    };
+
+    await transporter.sendMail(mailOptions);
 
     res.status(200).json(updatedReservation);
   } catch (error) {
@@ -82,7 +101,7 @@ const deleteReservation = async (req, res) => {
 
     const reservation = await Reservation.findOneAndDelete({
       _id: reservationId,
-      user: req.user, // Ensure the reservation belongs to the logged-in user
+      user: req.user,
     });
 
     if (!reservation) {

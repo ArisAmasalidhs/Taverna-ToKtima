@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import '../styles/login.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "../styles/login.css";
 
 const LoginRegisterPage = ({ setUser }) => {
   const [isRegistering, setIsRegistering] = useState(false);
-  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [form, setForm] = useState({ name: "", email: "", password: "" });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -14,27 +14,35 @@ const LoginRegisterPage = ({ setUser }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const url = isRegistering ? '/api/auth/register' : '/api/auth/login';
+      const url = isRegistering ? "/api/auth/register" : "/api/auth/login";
       const { data } = await axios.post(url, form);
-
+  
       if (isRegistering) {
-        alert('Registered successfully! Please login.');
+        alert("Registered successfully! Please login.");
         setIsRegistering(false);
       } else {
-        const user = data.user;
-        setUser(user);
-        localStorage.setItem('token', data.token);
-        alert(`Logged in successfully as ${user.role === 'admin' ? 'Admin' : 'User'}!`);
-        navigate('/');
+        const token = data.token; // Ensure the token exists here
+        console.log("Token received from login API:", token); // Debug log
+  
+        if (!token) {
+          console.error("Token is missing from the response");
+          alert("Login failed: No token received");
+          return;
+        }
+  
+        // Call the parent function to handle login
+        setUser(data);
+        localStorage.setItem("token", token);
+        console.log("Token stored in localStorage:", localStorage.getItem("token"));
+        navigate("/");
       }
     } catch (error) {
-      console.error('Error during login/register:', error.response || error.message);
-      alert(error.response?.data?.message || 'Something went wrong!');
+      console.error("Error during login/register:", error.response || error.message);
+      alert(error.response?.data?.message || "Something went wrong!");
     }
   };
-
+  
   return (
     <section className="hero">
       <video autoPlay loop muted playsInline className="back-video">
@@ -47,7 +55,7 @@ const LoginRegisterPage = ({ setUser }) => {
       <section className="content">
         <h1>Το Κτήμα</h1>
         <div className="form-container">
-          <h2>{isRegistering ? 'Register' : 'Login'}</h2>
+          <h2>{isRegistering ? "Register" : "Login"}</h2>
           <form onSubmit={handleSubmit}>
             {isRegistering && (
               <input
@@ -75,18 +83,18 @@ const LoginRegisterPage = ({ setUser }) => {
               onChange={handleChange}
               required
             />
-            <button type="submit">{isRegistering ? 'Register' : 'Login'}</button>
+            <button type="submit">{isRegistering ? "Register" : "Login"}</button>
           </form>
           <p>
             {isRegistering
-              ? 'Already have an account? '
+              ? "Already have an account? "
               : "Don't have an account? "}
             <button
               type="button"
               onClick={() => setIsRegistering(!isRegistering)}
               className="toggle-button"
             >
-              {isRegistering ? 'Login' : 'Register'}
+              {isRegistering ? "Login" : "Register"}
             </button>
           </p>
         </div>
