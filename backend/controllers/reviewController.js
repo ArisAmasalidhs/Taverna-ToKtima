@@ -1,4 +1,5 @@
 const Review = require('../models/Review');
+const User = require('../models/User'); // Import the User model to fetch profile pictures
 
 // Get all reviews (public access)
 const getAllReviews = async (req, res) => {
@@ -29,10 +30,18 @@ const createReview = async (req, res) => {
     const { customerName, rating, comment } = req.body;
     const userId = req.user; // Extract userId from auth middleware
 
+    // Fetch the user's profile picture from the User collection
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const profilePicture = user.profilePicture || null;
+
     // Validate input data
     if (!customerName || !rating || !comment) {
       return res.status(400).json({
-        message: 'All fields (customerName, rating, comment) are required.',
+        message: "All fields (customerName, rating, comment) are required.",
       });
     }
 
@@ -40,16 +49,23 @@ const createReview = async (req, res) => {
     const parsedRating = parseInt(rating, 10);
     if (isNaN(parsedRating) || parsedRating < 1 || parsedRating > 5) {
       return res.status(400).json({
-        message: 'Rating must be a number between 1 and 5.',
+        message: "Rating must be a number between 1 and 5.",
       });
     }
 
-    const newReview = new Review({ customerName, rating: parsedRating, comment, userId });
+    const newReview = new Review({
+      customerName,
+      rating: parsedRating,
+      comment,
+      userId,
+      profilePicture, // Include the profile picture in the review
+    });
+
     const savedReview = await newReview.save();
     res.status(201).json(savedReview);
   } catch (err) {
-    console.error('Error creating review:', err);
-    res.status(500).json({ message: 'Error creating review', error: err.message });
+    console.error("Error creating review:", err);
+    res.status(500).json({ message: "Error creating review", error: err.message });
   }
 };
 

@@ -1,25 +1,49 @@
+/* Global Styling */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #f0f4f8, #7da9dc); /* Subtle gradient for the entire page */
+  color: #333;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  height: 100%; /* Ensure body matches the full height of the viewport */
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%; /* Make the html element match the viewport height */
+}
+
 /* Overall Page Styling */
 .review-page {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
-  max-width: 1200px;
-  margin: 100px auto; /* Center page and adjust margin for spacing */
+  max-width: 1100px;
+  margin: 100px auto;
   padding: 20px;
-  font-family: 'Arial', sans-serif;
   gap: 20px;
+  position: relative;
+  background: #fcfcfc;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 /* Reviews Section */
 .reviews-list {
-  flex: 2; /* Occupies more space for the review cards */
-  margin-right: 20px;
+  flex: 1 1 auto;
+  min-width: 70%;
+  padding: 10px;
+  background: #c8dcef; /* Light background for the reviews section */
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Review Card */
 .review {
   display: flex;
-  align-items: flex-start;
-  gap: 15px;
+  flex-direction: column;
   background: #ffffff;
   border: 1px solid #ddd;
   padding: 20px;
@@ -30,12 +54,19 @@
 }
 
 .review:hover {
-  transform: scale(1.02); /* Slight zoom effect on hover */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+  transform: scale(1.02);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Profile Picture */
-.review img {
+/* Review Header (Profile and Name) */
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.review-header img.review-profile-image {
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -44,17 +75,22 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.review-content {
-  flex: 1;
-}
-
-.review h3 {
+.review-header h3 {
+  font-size: 1.2rem;
   margin: 0;
-  font-size: 1.5rem;
-  color: #0077b6;
+  color: #333;
 }
 
-.review p {
+/* Placeholder for Missing Profile Picture */
+.placeholder-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #ccc;
+}
+
+/* Review Content */
+.review-content p {
   font-size: 1rem;
   color: #555;
   line-height: 1.5;
@@ -68,15 +104,19 @@
 }
 
 /* Review Form Section */
+.review-form-wrapper {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+}
+
 .review-form {
-  flex: 1; /* Smaller section for the form */
-  background: #f9f9f9;
+  background: #ffffff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  position: sticky;
-  top: 100px; /* Keeps the form visible when scrolling */
 }
 
 .review-form h2 {
@@ -106,7 +146,7 @@
 .review-form button {
   width: 100%;
   background-color: #0077b6;
-  color: white;
+  color: rgb(255, 255, 255);
   border: none;
   padding: 10px 15px;
   font-size: 1rem;
@@ -117,11 +157,11 @@
 
 .review-form button:hover {
   background-color: #005f8b;
-  transform: scale(1.02); /* Slight zoom on hover */
+  transform: scale(1.02);
 }
 
 .review-form button:active {
-  transform: scale(0.98); /* Slight shrink on click */
+  transform: scale(0.98);
 }
 
 /* Responsive Design */
@@ -135,7 +175,9 @@
     margin-bottom: 20px;
   }
 
-  .review-form {
+  .review-form-wrapper {
     position: static;
+    width: 100%;
+    margin-top: 20px;
   }
 }

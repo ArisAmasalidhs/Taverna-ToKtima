@@ -7,7 +7,6 @@ const Navbar = ({ user, onLogout }) => {
   const location = useLocation();
 
   useEffect(() => {
-    console.log('Navbar user prop:', user); // Debug: Check if user prop updates
     const handleScroll = () => {
       if (window.scrollY > 50) {
         setScrolled(true);
@@ -20,7 +19,7 @@ const Navbar = ({ user, onLogout }) => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [user]);
+  }, []);
 
   const isStaticBackground = location.pathname !== '/';
 
@@ -46,6 +45,15 @@ const Navbar = ({ user, onLogout }) => {
       <div className="navbar-auth">
         {user ? (
           <>
+            {user.profilePicture && (
+              <Link to="/profile">
+                <img
+                  src={`http://localhost:5000/uploads/${user.profilePicture}`}
+                  alt="Profile"
+                  className="navbar-profile-image"
+                />
+              </Link>
+            )}
             <Link to="/profile">Profile</Link>
             <button onClick={onLogout}>Log Out</button>
           </>

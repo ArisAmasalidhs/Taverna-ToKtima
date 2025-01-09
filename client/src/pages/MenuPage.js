@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import '../styles/MenuPage.css';
-import gyrosVideo from '../assets/gyroscut.mp4'; // Adjust the path if necessary
+import menuvideo from '../assets/menuvideo.mp4'; // Adjust the path if necessary
 
 const MenuPage = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -23,7 +23,7 @@ const MenuPage = () => {
     <div>
       {/* Background Video */}
       <video autoPlay loop muted className="menu-video">
-        <source src={gyrosVideo} type="video/mp4" />
+        <source src={menuvideo} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
