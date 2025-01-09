@@ -53,7 +53,7 @@ const LoginRegisterPage = ({ setUser }) => {
       </video>
 
       <section className="content">
-        <h1>Το Κτήμα</h1>
+        <h1>Welcome Στο Κτήμα</h1>
         <div className="form-container">
           <h2>{isRegistering ? "Register" : "Login"}</h2>
           <form onSubmit={handleSubmit}>

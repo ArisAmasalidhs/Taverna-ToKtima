@@ -165,6 +165,7 @@ const AdminPanel = () => {
           {menu.map((item) => (
             <li key={item._id}>
               {item.name} - ${item.price} ({item.category})
+              <div class="buttons-container-admin">
               <button
                 onClick={() => {
                   const newPrice = prompt("Enter new price:", item.price);
@@ -176,6 +177,7 @@ const AdminPanel = () => {
                 Edit
               </button>
               <button onClick={() => deleteMenuItem(item._id)}>Delete</button>
+              </div>
             </li>
           ))}
         </ul>

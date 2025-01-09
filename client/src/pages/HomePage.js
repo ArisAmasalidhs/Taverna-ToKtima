@@ -7,6 +7,7 @@ import {
   faInstagram,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
+import menuImage from '../assets/pngegg.png';
 
 const HomePage = () => {
   const [topCarouselItems, setTopCarouselItems] = useState([]);
@@ -194,63 +195,64 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Large Bottom Carousel */}
-      <section className="homepage-large-carousel bottom-carousel">
-        <div className="homepage-carousel-wrapper">
-          <a
-            className="homepage-bottom-carousel-link"
-            href="/menu"
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              backgroundColor: "#fff",
-              padding: "10px 20px",
-              borderRadius: "5px",
-              zIndex: 1,
-            }}
-          >
-            Visit Our Menu
-          </a>
-          <button
-            className="homepage-carousel-buttons prev"
-            onClick={() =>
-              handleCarouselPrev(setBottomCarouselIndex, bottomCarouselItems)
-            }
-          >
-            ❮
-          </button>
-          {bottomCarouselItems.length > 0 ? (
-            <div className="homepage-carousel-item">
-              <img
-                src={
-                  bottomCarouselItems[bottomCarouselIndex]?.imageUrl ||
-                  "https://via.placeholder.com/800x400"
-                }
-                alt="Bottom Carousel"
-              />
-            </div>
-          ) : (
-            <div className="homepage-carousel-item">
-              <img
-                src="https://via.placeholder.com/800x400"
-                alt="Placeholder"
-              />
-            </div>
-          )}
-          <button
-            className="homepage-carousel-buttons next"
-            onClick={() =>
-              handleCarouselNext(setBottomCarouselIndex, bottomCarouselItems)
-            }
-          >
-            ❯
-          </button>
-        </div>
-      </section>
+{/* Large Bottom Carousel */}
+<section className="homepage-large-carousel bottom-carousel">
+  <div className="homepage-carousel-wrapper">
+    {/* Replace the button with a clickable image */}
+    <a
+      href="/menu"
+      className="homepage-bottom-carousel-image-link"
+      style={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        zIndex: 2,
+      }}
+    >
+      <img
+        src={menuImage}
+        alt="Menu"
+        className="homepage-bottom-carousel-image"
+      />
+    </a>
+    <button
+      className="homepage-carousel-buttons prev"
+      onClick={() =>
+        handleCarouselPrev(setBottomCarouselIndex, bottomCarouselItems)
+      }
+    >
+      ❮
+    </button>
+    {bottomCarouselItems.length > 0 ? (
+      <div className="homepage-carousel-item">
+        <img
+          src={
+            bottomCarouselItems[bottomCarouselIndex]?.imageUrl ||
+            "https://via.placeholder.com/800x400"
+          }
+          alt="Bottom Carousel"
+        />
+      </div>
+    ) : (
+      <div className="homepage-carousel-item">
+        <img
+          src="https://via.placeholder.com/800x400"
+          alt="Placeholder"
+        />
+      </div>
+    )}
+    <button
+      className="homepage-carousel-buttons next"
+      onClick={() =>
+        handleCarouselNext(setBottomCarouselIndex, bottomCarouselItems)
+      }
+    >
+      ❯
+    </button>
+  </div>
+</section>
+
 
       {/* Footer */}
       <footer className="homepage-footer">

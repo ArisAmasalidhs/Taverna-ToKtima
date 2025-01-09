@@ -36,11 +36,16 @@ const Navbar = ({ user, onLogout }) => {
       </div>
       <div className="navbar-links">
         <Link to="/">Welcome</Link>
-        <Link to="/menu">Menu</Link>
-        <Link to="/reservations">Reservations</Link>
-        <Link to="/reviews">Reviews</Link>
-        <Link to="/contact">Contact</Link>
-        {user?.role === 'admin' && <Link to="/admin">Admin Panel</Link>}
+        {user?.role === 'admin' ? (
+          <Link to="/admin">Admin Panel</Link>
+        ) : (
+          <>
+            <Link to="/menu">Menu</Link>
+            <Link to="/reservations">Reservations</Link>
+            <Link to="/reviews">Reviews</Link>
+            <Link to="/contact">Contact</Link>
+          </>
+        )}
       </div>
       <div className="navbar-auth">
         {user ? (

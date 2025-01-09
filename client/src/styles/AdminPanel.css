@@ -2,7 +2,7 @@
 .admin-panel {
   padding: 20px;
   font-family: 'Arial', sans-serif;
-  background-color: #f9f9f9;
+  background-color: #f4f8fb; /* Subtle background */
   color: #333;
 }
 
@@ -11,6 +11,7 @@
   font-size: 2.5rem;
   color: #0077b6;
   margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .admin-panel h2 {
@@ -20,6 +21,7 @@
   text-align: center;
   border-bottom: 2px solid #ddd;
   padding-bottom: 10px;
+  text-transform: uppercase;
 }
 
 /* Forms */
@@ -31,17 +33,18 @@ form {
   margin: 0 auto 30px auto;
   padding: 20px;
   background: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 }
 
 form input,
 form select,
 form button {
-  padding: 10px 15px;
+  padding: 12px 15px;
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 1rem;
+  margin: 3px;
 }
 
 form input:focus,
@@ -52,14 +55,20 @@ form select:focus {
 }
 
 form button {
-  background-color: #0077b6;
+  background-image: linear-gradient(#42a1ec, #0070c9);
+  border: 1px solid #0077cc;
   color: white;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s;
 }
 
 form button:hover {
-  background-color: #005f8b;
+  background-image: linear-gradient(#51a9ee, #147bcd);
+  transform: scale(1.05);
+}
+
+form button:active {
+  transform: scale(0.95);
 }
 
 /* Lists */
@@ -81,77 +90,36 @@ ul li {
 }
 
 /* List Buttons */
+ul li .button-container {
+  display: flex;
+  gap: 10px; /* Gap between buttons */
+}
+
 ul li button {
   padding: 8px 12px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 0.9rem;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s;
 }
 
 ul li button:hover {
-  filter: brightness(1.1);
+  transform: scale(1.05);
 }
 
-ul li button:nth-child(1) {
-  background-color: #28a745;
+ul li button {
+  background-image: linear-gradient(#42a1ec, #0070c9);
+  border: 1px solid #0077cc;
   color: white;
 }
 
-ul li button:nth-child(1):hover {
-  background-color: #218838;
+ul li button:hover {
+  background-image: linear-gradient(#51a9ee, #147bcd);
 }
 
-ul li button:nth-child(2) {
-  background-color: #dc3545;
-  color: white;
-}
-
-ul li button:nth-child(2):hover {
-  background-color: #c82333;
-}
-
-/* Reservation Cards */
-.reservation-card {
-  padding: 15px;
-  margin-bottom: 15px;
-  background: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.reservation-card p {
-  margin: 5px 0;
-  font-size: 1rem;
-}
-
-.reservation-card button {
-  margin-right: 10px;
-  padding: 8px 12px;
-  font-size: 0.9rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  color: white;
-  transition: background-color 0.3s ease;
-}
-
-.reservation-card button:nth-child(1) {
-  background-color: #28a745;
-}
-
-.reservation-card button:nth-child(1):hover {
-  background-color: #218838;
-}
-
-.reservation-card button:nth-child(2) {
-  background-color: #dc3545;
-}
-
-.reservation-card button:nth-child(2):hover {
-  background-color: #c82333;
+ul li button:active {
+  transform: scale(0.95);
 }
 
 /* Carousel Management */
@@ -178,6 +146,7 @@ ul li button:nth-child(2):hover {
   text-align: center;
   padding: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .carousel-image-wrapper img {
@@ -186,28 +155,43 @@ ul li button:nth-child(2):hover {
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: 10px;
+  border: 2px solid #0077b6;
 }
 
 .carousel-image-wrapper p {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #333;
   margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.carousel-image-wrapper .button-container {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .carousel-image-wrapper button {
-  margin-top: 10px;
   padding: 8px 15px;
   font-size: 0.9rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: #dc3545;
+  background-image: linear-gradient(#42a1ec, #0070c9);
   color: white;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s;
 }
 
 .carousel-image-wrapper button:hover {
-  background-color: #c82333;
+  background-image: linear-gradient(#51a9ee, #147bcd);
+  transform: scale(1.05);
+}
+
+.carousel-image-wrapper button:active {
+  transform: scale(0.95);
 }
 
 /* Section Spacing */
@@ -218,4 +202,5 @@ section {
 section h2 {
   margin-bottom: 20px;
   text-align: center;
+  text-transform: uppercase;
 }
