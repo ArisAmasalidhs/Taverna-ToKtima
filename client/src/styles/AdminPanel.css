@@ -1,7 +1,7 @@
 /* General Admin Panel Styles */
 .admin-panel {
   padding: 20px;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   background-color: #f4f8fb; /* Subtle background */
   color: #333;
 }
@@ -89,10 +89,11 @@ ul li {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* List Buttons */
+/* Button Container */
 ul li .button-container {
   display: flex;
-  gap: 10px; /* Gap between buttons */
+  gap: 5px; /* 5px gap between buttons */
+  justify-content: flex-end;
 }
 
 ul li button {
@@ -102,24 +103,31 @@ ul li button {
   cursor: pointer;
   font-size: 0.9rem;
   transition: background-color 0.3s ease, transform 0.2s;
+  gap: 5px;
 }
 
-ul li button:hover {
-  transform: scale(1.05);
-}
-
-ul li button {
+/* Edit Button */
+ul li button:first-child {
   background-image: linear-gradient(#42a1ec, #0070c9);
   border: 1px solid #0077cc;
   color: white;
 }
 
-ul li button:hover {
+ul li button:first-child:hover {
   background-image: linear-gradient(#51a9ee, #147bcd);
+  transform: scale(1.05);
 }
 
-ul li button:active {
-  transform: scale(0.95);
+/* Delete Button */
+ul li button:last-child {
+  background-image: linear-gradient(#dc3545, #b02a37);
+  border: 1px solid #b02a37;
+  color: white;
+}
+
+ul li button:last-child:hover {
+  background-image: linear-gradient(#e03a4d, #c32f42);
+  transform: scale(1.05);
 }
 
 /* Carousel Management */
@@ -170,8 +178,7 @@ ul li button:active {
   bottom: 10px;
   right: 10px;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  gap: 5px; /* 5px gap between buttons */
 }
 
 .carousel-image-wrapper button {
@@ -180,13 +187,27 @@ ul li button:active {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-image: linear-gradient(#42a1ec, #0070c9);
   color: white;
   transition: background-color 0.3s ease, transform 0.2s;
 }
 
-.carousel-image-wrapper button:hover {
+/* Edit Button for Carousel */
+.carousel-image-wrapper button:first-child {
+  background-image: linear-gradient(#42a1ec, #0070c9);
+}
+
+.carousel-image-wrapper button:first-child:hover {
   background-image: linear-gradient(#51a9ee, #147bcd);
+  transform: scale(1.05);
+}
+
+/* Delete Button for Carousel */
+.carousel-image-wrapper button:last-child {
+  background-image: linear-gradient(#dc3545, #b02a37);
+}
+
+.carousel-image-wrapper button:last-child:hover {
+  background-image: linear-gradient(#e03a4d, #c32f42);
   transform: scale(1.05);
 }
 
@@ -194,13 +215,35 @@ ul li button:active {
   transform: scale(0.95);
 }
 
-/* Section Spacing */
-section {
-  margin-bottom: 40px;
+/* Reservation Buttons */
+.reservation-card button {
+  margin: 5px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
 }
 
-section h2 {
-  margin-bottom: 20px;
-  text-align: center;
-  text-transform: uppercase;
+/* Confirm Button */
+.reservation-card button:first-child {
+  background-color: #28a745;
+  color: white;
+}
+
+.reservation-card button:first-child:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+/* Cancel Button */
+.reservation-card button:last-child {
+  background-color: #dc3545;
+  color: white;
+}
+
+.reservation-card button:last-child:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
 }

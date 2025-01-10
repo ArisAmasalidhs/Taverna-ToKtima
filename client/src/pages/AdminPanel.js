@@ -80,7 +80,6 @@ const AdminPanel = () => {
       const response = await axios.post("/api/admin/carousel", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log("Added image:", response.data);
       fetchCarouselImages(); // Re-fetch carousel images
     } catch (err) {
       console.error("Error adding carousel image:", err);
@@ -162,21 +161,27 @@ const AdminPanel = () => {
         </form>
 
         <ul>
-          {menu.map((item) => (
+          {menu.slice(0).reverse().map((item) => ( // Reverse for newest items first
             <li key={item._id}>
               {item.name} - ${item.price} ({item.category})
-              <div class="buttons-container-admin">
-              <button
-                onClick={() => {
-                  const newPrice = prompt("Enter new price:", item.price);
-                  if (newPrice) {
-                    editMenuItem(item._id, { ...item, price: Number(newPrice) });
-                  }
-                }}
-              >
-                Edit
-              </button>
-              <button onClick={() => deleteMenuItem(item._id)}>Delete</button>
+              <div className="button-container menu-button-container">
+                <button
+                  className="menu-button edit-button"
+                  onClick={() => {
+                    const newPrice = prompt("Enter new price:", item.price);
+                    if (newPrice) {
+                      editMenuItem(item._id, { ...item, price: Number(newPrice) });
+                    }
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  className="menu-button delete-button"
+                  onClick={() => deleteMenuItem(item._id)}
+                >
+                  Delete
+                </button>
               </div>
             </li>
           ))}
@@ -206,9 +211,9 @@ const AdminPanel = () => {
           <button type="submit">Add Carousel Image</button>
         </form>
 
-        <div>
+        <div className="carousel-management">
           {carousels.map((image) => (
-            <div key={image._id}>
+            <div key={image._id} className="carousel-image-wrapper">
               <img
                 src={`/uploads/${image.imageUrl}`}
                 alt="Carousel"
@@ -216,7 +221,14 @@ const AdminPanel = () => {
                 onError={handleImageError}
               />
               <p>{image.carouselSection}</p>
-              <button onClick={() => deleteCarouselImage(image._id)}>Delete</button>
+              <div className="button-container carousel-button-container">
+                <button
+                  className="carousel-button delete-button"
+                  onClick={() => deleteCarouselImage(image._id)}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           ))}
         </div>
