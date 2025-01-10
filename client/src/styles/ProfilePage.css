@@ -116,6 +116,7 @@
   cursor: pointer;
   margin-top: 10px; /* Adds gap from the content above */
   transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 200px;
 }
 
 .review button:first-of-type {

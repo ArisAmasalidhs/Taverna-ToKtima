@@ -83,7 +83,6 @@
   right: 20px;
 }
 
-
 /* About Section */
 
 .homepage-about-section {
@@ -100,24 +99,24 @@
 }
 .homepage-about-section h2 {
   font-family: "Playfair Display", serif;
-  font-size: 3rem; 
-  color: #0077b6; 
-  text-transform: uppercase; 
-  letter-spacing: 2px; 
-  margin-bottom: 20px; 
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); 
-  position: relative; 
+  font-size: 3rem;
+  color: #0077b6;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  position: relative;
   display: inline-block;
 }
 
 .homepage-about-section h2::after {
   content: "";
   display: block;
-  width: 60%; 
-  height: 4px; 
-  background-color: #ffcc00; 
-  margin: 10px auto 0; 
-  border-radius: 2px; 
+  width: 60%;
+  height: 4px;
+  background-color: #ffcc00;
+  margin: 10px auto 0;
+  border-radius: 2px;
 }
 @media (min-width: 768px) {
   .homepage-about-container {
@@ -158,6 +157,74 @@
   width: 500px;
   height: 650px; /* Ensure consistent sizing */
 }
+/* Syros Section */
+.syros-section {
+  background-color: #c1eeed; /* Light blue background for the section */
+  padding: 100px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.syros-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .syros-content {
+    flex-direction: row; /* Row layout for larger screens */
+    justify-content: space-between;
+  }
+}
+
+.syros-text {
+  flex: 1;
+  max-width: 600px;
+  color: #333;
+  text-align: left;
+  font-family: "Playfair Display", serif;
+}
+
+.syros-text h2 {
+  font-size: 2.5rem;
+  color: #0077b6;
+  margin-bottom: 15px;
+}
+
+.syros-text p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  margin-bottom: 15px;
+}
+
+.syros-video {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.syros-video iframe {
+  max-width: 560px;
+  height: 450px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .syros-video iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9; /* Maintain aspect ratio */
+  }
+}
 
 .homepage-carousel-arrow.enhanced-arrow {
   position: absolute;
@@ -184,7 +251,6 @@
 .homepage-carousel-arrow.enhanced-arrow.right {
   right: 100px; /* Position on the right inside the image */
 }
-
 
 /* Footer Content */
 .homepage-footer-content {
@@ -224,7 +290,6 @@
   opacity: 0.8; /* Slightly dim */
 }
 
-
 /* Focus Effects */
 .homepage-bottom-carousel-link:focus {
   outline: none;
@@ -251,7 +316,6 @@
   height: 100%; /* Ensures it fills the container */
   object-fit: cover; /* Ensures the image scales without distortion */
 }
-
 
 /* Footer and other sections remain unchanged */
 

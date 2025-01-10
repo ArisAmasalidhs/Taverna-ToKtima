@@ -7,7 +7,7 @@ import {
   faInstagram,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
-import menuImage from '../assets/pngegg.png';
+import menuImage from "../assets/pngegg.png";
 
 const HomePage = () => {
   const [topCarouselItems, setTopCarouselItems] = useState([]);
@@ -194,65 +194,95 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
-{/* Large Bottom Carousel */}
-<section className="homepage-large-carousel bottom-carousel">
-  <div className="homepage-carousel-wrapper">
-    {/* Replace the button with a clickable image */}
-    <a
-      href="/menu"
-      className="homepage-bottom-carousel-image-link"
-      style={{
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        zIndex: 2,
-      }}
-    >
-      <img
-        src={menuImage}
-        alt="Menu"
-        className="homepage-bottom-carousel-image"
-      />
-    </a>
-    <button
-      className="homepage-carousel-buttons prev"
-      onClick={() =>
-        handleCarouselPrev(setBottomCarouselIndex, bottomCarouselItems)
-      }
-    >
-      ❮
-    </button>
-    {bottomCarouselItems.length > 0 ? (
-      <div className="homepage-carousel-item">
-        <img
-          src={
-            bottomCarouselItems[bottomCarouselIndex]?.imageUrl ||
-            "https://via.placeholder.com/800x400"
-          }
-          alt="Bottom Carousel"
-        />
-      </div>
-    ) : (
-      <div className="homepage-carousel-item">
-        <img
-          src="https://via.placeholder.com/800x400"
-          alt="Placeholder"
-        />
-      </div>
-    )}
-    <button
-      className="homepage-carousel-buttons next"
-      onClick={() =>
-        handleCarouselNext(setBottomCarouselIndex, bottomCarouselItems)
-      }
-    >
-      ❯
-    </button>
-  </div>
-</section>
-
+      {/* Syros Island Section */}
+      <section className="syros-section">
+        <div className="syros-content">
+          <div className="syros-text">
+            <h2>Discover Syros Island</h2>
+            <p>
+              Syros, the jewel of the Cyclades, is known for its rich history,
+              stunning architecture, and vibrant culture. From the neoclassical
+              charm of Ermoupolis to the golden sands of its beaches, Syros
+              offers an unforgettable experience.
+            </p>
+            <p>
+              Wander through picturesque villages, savor traditional Greek
+              cuisine, and immerse yourself in the island's vibrant music
+              festivals. Syros is where tradition meets modernity, creating a
+              unique destination for all.
+            </p>
+          </div>
+          <div className="syros-video">
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/R7rjmEwnAMg?si=5dOzF8E9xF826WnB"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      </section>
+      {/* Large Bottom Carousel */}
+      <section className="homepage-large-carousel bottom-carousel">
+        <div className="homepage-carousel-wrapper">
+          {/* Replace the button with a clickable image */}
+          <a
+            href="/menu"
+            className="homepage-bottom-carousel-image-link"
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 2,
+            }}
+          >
+            <img
+              src={menuImage}
+              alt="Menu"
+              className="homepage-bottom-carousel-image"
+            />
+          </a>
+          <button
+            className="homepage-carousel-buttons prev"
+            onClick={() =>
+              handleCarouselPrev(setBottomCarouselIndex, bottomCarouselItems)
+            }
+          >
+            ❮
+          </button>
+          {bottomCarouselItems.length > 0 ? (
+            <div className="homepage-carousel-item">
+              <img
+                src={
+                  bottomCarouselItems[bottomCarouselIndex]?.imageUrl ||
+                  "https://via.placeholder.com/800x400"
+                }
+                alt="Bottom Carousel"
+              />
+            </div>
+          ) : (
+            <div className="homepage-carousel-item">
+              <img
+                src="https://via.placeholder.com/800x400"
+                alt="Placeholder"
+              />
+            </div>
+          )}
+          <button
+            className="homepage-carousel-buttons next"
+            onClick={() =>
+              handleCarouselNext(setBottomCarouselIndex, bottomCarouselItems)
+            }
+          >
+            ❯
+          </button>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="homepage-footer">
