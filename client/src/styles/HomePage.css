@@ -82,7 +82,20 @@
 .homepage-carousel-buttons.next {
   right: 20px;
 }
+@media (max-width: 768px) {
+  .homepage-large-carousel {
+    height: 70vh; /* Adjust height for smaller screens */
+  }
+}
+@media (max-width: 768px) {
+  .homepage-carousel-overlay h2 {
+    font-size: 2rem;
+  }
 
+  .homepage-carousel-overlay p {
+    font-size: 1rem;
+  }
+}
 /* About Section */
 
 .homepage-about-section {
@@ -125,7 +138,11 @@
     align-items: flex-start;
   }
 }
-
+@media (min-width: 768px) {
+  .homepage-about-section {
+    padding: 40px 300px;
+  }
+}
 .homepage-about-text {
   flex: 1; /* Allow the text to take equal space */
   max-width: 600px; /* Limit the width of the text block */
@@ -140,7 +157,12 @@
   margin-bottom: 20px;
   text-align: justify; /* Justify the text */
 }
-
+@media (max-width: 768px) {
+  .homepage-about-text p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+}
 .homepage-small-carousel {
   position: relative;
   flex: 1; /* Allow the carousel to take equal space */
@@ -157,10 +179,16 @@
   width: 500px;
   height: 650px; /* Ensure consistent sizing */
 }
+@media (max-width: 768px) {
+  .homepage-small-carousel img {
+    width: 100%; /* Adjust for smaller screens */
+    height: auto;
+  }
+}
 /* Syros Section */
 .syros-section {
-  background-color: #c1eeed; /* Light blue background for the section */
-  padding: 100px 20px;
+  background-color: #ffffff; /* Light blue background for the section */
+  padding: 140px 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -179,10 +207,11 @@
 
 @media (min-width: 768px) {
   .syros-content {
-    flex-direction: row; /* Row layout for larger screens */
+    flex-direction: row;
     justify-content: space-between;
   }
 }
+
 
 .syros-text {
   flex: 1;
@@ -220,9 +249,8 @@
 
 @media (max-width: 768px) {
   .syros-video iframe {
-    width: 100%;
+    aspect-ratio: 16/9;
     height: auto;
-    aspect-ratio: 16/9; /* Maintain aspect ratio */
   }
 }
 
@@ -277,7 +305,7 @@
 }
 
 .homepage-bottom-carousel-image {
-  width: 652px; /* Adjust size as needed */
+  width: 664px; /* Adjust size as needed */
   height: auto; /* Maintain aspect ratio */
   border-radius: 10px; /* Optional: add rounded corners */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Add shadow for better visibility */

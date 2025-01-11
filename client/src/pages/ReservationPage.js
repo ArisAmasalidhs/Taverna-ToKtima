@@ -19,14 +19,28 @@ const ReservationPage = () => {
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
+  const isDateInPast = (date) => {
+    const selectedDate = new Date(date);
+    const today = new Date();
+    // Compare only the date parts (ignore time)
+    return selectedDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (isDateInPast(form.date)) {
+      setError('The date you entered is invalid. Please select a future date.');
+      setSuccessMessage(null);
+      return;
+    }
+
     try {
       const token = localStorage.getItem('token');
       const config = { headers: { Authorization: `Bearer ${token}` } };
 
       const response = await axios.post('http://localhost:5000/api/reservations', form, config);
-      setSuccessMessage(response.data.message); // Use server's message
+      setSuccessMessage('Your reservation has been submitted successfully!');
       setError(null);
       setForm({
         name: '',
@@ -97,6 +111,7 @@ const ReservationPage = () => {
           />
           <input
             name="numberOfGuests"
+            type="number"
             placeholder="Guests"
             value={form.numberOfGuests}
             onChange={handleChange}

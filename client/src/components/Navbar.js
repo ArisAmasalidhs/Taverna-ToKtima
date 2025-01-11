@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/Navbar.css';
 
 const Navbar = ({ user, onLogout }) => {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -23,6 +24,8 @@ const Navbar = ({ user, onLogout }) => {
 
   const isStaticBackground = location.pathname !== '/';
 
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
+
   return (
     <nav
       className={`navbar ${
@@ -34,7 +37,10 @@ const Navbar = ({ user, onLogout }) => {
           <h1>Το Κτήμα</h1>
         </Link>
       </div>
-      <div className="navbar-links">
+      <button className="navbar-toggle" onClick={toggleMenu}>
+        ☰
+      </button>
+      <div className={`navbar-links ${menuOpen ? 'active' : ''}`}>
         <Link to="/">Welcome</Link>
         {user?.role === 'admin' ? (
           <Link to="/admin">Admin Panel</Link>
@@ -47,7 +53,7 @@ const Navbar = ({ user, onLogout }) => {
           </>
         )}
       </div>
-      <div className="navbar-auth">
+      <div className={`navbar-auth ${menuOpen ? 'active' : ''}`}>
         {user ? (
           <>
             {user.profilePicture && (

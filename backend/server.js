@@ -4,6 +4,8 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const path = require("path");
 const nodemailer = require("nodemailer");
+const schedule = require("node-schedule"); // Added for scheduled tasks
+const Reservation = require("./models/Reservation"); // Import Reservation model for cleanup
 
 // Load environment variables
 dotenv.config();
@@ -25,13 +27,13 @@ mongoose
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Import Routes
-const userRoutes = require("./routes/userRoutes"); // Ensure this path is correct
+const userRoutes = require("./routes/userRoutes");
 const menuRoutes = require("./routes/menuRoutes");
 const reservationRoutes = require("./routes/reservationsRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const authRoutes = require("./routes/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
-const publicRoutes = require("./routes/publicRoutes"); // Ensure this file exists
+const publicRoutes = require("./routes/publicRoutes");
 
 // Define API Routes
 app.use("/api/users", userRoutes);
@@ -41,6 +43,17 @@ app.use("/api/reviews", reviewRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/public", publicRoutes);
+
+// Scheduled job to delete past reservations
+schedule.scheduleJob("0 0 * * *", async () => {
+  try {
+    const today = new Date().toISOString().split("T")[0];
+    const result = await Reservation.deleteMany({ date: { $lt: today } });
+    console.log(`Deleted ${result.deletedCount} past reservations.`);
+  } catch (err) {
+    console.error("Error during scheduled cleanup of past reservations:", err);
+  }
+});
 
 // Test Email Endpoint
 app.get("/api/test-email", async (req, res) => {
@@ -55,7 +68,7 @@ app.get("/api/test-email", async (req, res) => {
 
     const info = await transporter.sendMail({
       from: process.env.EMAIL_USER,
-      to: "test-recipient@example.com", // Replace with a valid recipient email
+      to: "test-recipient@example.com",
       subject: "Test Email",
       text: "This is a test email from the Greek Taverna API!",
     });

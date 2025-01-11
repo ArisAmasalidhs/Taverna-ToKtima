@@ -105,6 +105,18 @@ const ProfilePage = ({ user, setUser }) => {
     }
   };
 
+  const getReservationStatusMessage = (status) => {
+    switch (status) {
+      case "Confirmed":
+        return "Your reservation has been confirmed. Get ready for your meal!";
+      case "Rejected":
+        return "Your reservation has been canceled due to unavailability.";
+      case "Pending":
+      default:
+        return "Your reservation is currently pending.";
+    }
+  };
+
   return (
     <div className="profile-page">
       <section className="profile-card">
@@ -162,6 +174,7 @@ const ProfilePage = ({ user, setUser }) => {
               <p>
                 Status: <strong>{reservation.status}</strong>
               </p>
+              <p className="status-message">{getReservationStatusMessage(reservation.status)}</p>
             </div>
           ))
         )}

@@ -35,7 +35,7 @@ const AdminPanel = () => {
       const response = await axios.get("/api/reservations", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-      setReservations(response.data.filter((res) => res.status === "Pending"));
+      setReservations(response.data);
     } catch (err) {
       console.error("Error fetching reservations:", err);
     }
@@ -95,33 +95,21 @@ const AdminPanel = () => {
     }
   };
 
-  const confirmReservation = async (id) => {
-    try {
-      await axios.put(
-        `/api/reservations/${id}/status`,
-        { status: "Confirmed" },
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-      );
-      alert("Reservation confirmed and email sent!");
-      fetchReservations(); // Re-fetch reservations
-    } catch (err) {
-      console.error("Error confirming reservation:", err);
-    }
-  };
-
-  const cancelReservation = async (id) => {
-    try {
-      await axios.put(
-        `/api/reservations/${id}/status`,
-        { status: "Rejected" },
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-      );
-      alert("Reservation canceled and email sent!");
-      fetchReservations(); // Re-fetch reservations
-    } catch (err) {
-      console.error("Error canceling reservation:", err);
-    }
-  };
+    // Update reservation status
+    const updateReservationStatus = async (id, status) => {
+      try {
+        const response = await axios.put(
+          `/api/reservations/${id}/status`,
+          { status },
+          { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+        );
+  
+        alert(response.data.message || `Reservation ${status}`);
+        fetchReservations(); // Refresh reservations list
+      } catch (err) {
+        console.error(`Error updating reservation status:`, err);
+      }
+    };
 
   const handleImageError = (e) => {
     if (!e.target.src.includes("/default-placeholder.png")) {
@@ -234,8 +222,8 @@ const AdminPanel = () => {
         </div>
       </section>
 
-      {/* Pending Reservations */}
-      <section>
+{/* Pending Reservations */}
+<section>
         <h2>Pending Reservations</h2>
         {reservations.length === 0 && <p>No pending reservations.</p>}
         {reservations.map((reservation) => (
@@ -246,8 +234,23 @@ const AdminPanel = () => {
             <p>Date: {reservation.date}</p>
             <p>Time: {reservation.time}</p>
             <p>Guests: {reservation.numberOfGuests}</p>
-            <button onClick={() => confirmReservation(reservation._id)}>Confirm</button>
-            <button onClick={() => cancelReservation(reservation._id)}>Cancel</button>
+            <p>Status: <strong>{reservation.status}</strong></p>
+            {reservation.status === "Pending" && (
+              <div className="button-container">
+                <button
+                  onClick={() => updateReservationStatus(reservation._id, "Confirmed")}
+                  className="confirm-button"
+                >
+                  Confirm
+                </button>
+                <button
+                  onClick={() => updateReservationStatus(reservation._id, "Rejected")}
+                  className="reject-button"
+                >
+                  Reject
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </section>
