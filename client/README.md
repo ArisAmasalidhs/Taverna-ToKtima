@@ -1,70 +1,97 @@
-# Getting Started with Create React App
+# 🍽️ Restaurant Website - Το Κτήμα
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<img src="client/GreekTaverna-Logo.png" alt="Restaurant Logo" width="400" height="300">
 
-## Available Scripts
+Welcome to the official repository for our restaurant **Το Κτήμα**, a fully responsive and dynamic website crafted for a premium restaurant experience. This project showcases clean design, seamless functionality, and an adaptive layout suitable for all devices.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 📑 Table of Contents
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. [Overview](#-overview)
+2. [Features](#-features)
+3. [Technologies Used](#%EF%B8%8F-technologies-used)
+4. [Installation](#-installation)
+5. [Usage](#-usage)
+6. [Contributing](#-contributing)
+7. [Contact](#-contact)
+8. [Acknowledgements](#-acknowledgements)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## 🌟 Overview
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**Το Κτήμα** is a modern restaurant website designed to:
 
-### `npm run build`
+- Provide an elegant online presence for restaurants.
+- Showcase detailed menus, reservations, and customer reviews.
+- Deliver a seamless and interactive user experience.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## ✨ Features
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Dynamic Homepage:** Hero carousel, vibrant visuals, and restaurant highlights.
+- **Menu Display:** Explore food categories with detailed descriptions.
+- **Reservations:** Effortless online booking with interactive forms.
+- **Customer Reviews:** Share experiences and read guest feedback.
+- **Admin Panel:** Manage menus, reservations, and customer feedback.
+- **Contact Page:** Includes a location map and contact form.
+- **Fully Responsive Design:** Optimized for desktops, tablets, and mobile devices.
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🛠️ Technologies Used
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Frontend
+- React.js
+- React Router
+- Axios
+- CSS
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Security
+- JWT (JSON Web Tokens)
+- bcrypt.js
 
-## Learn More
+### DevOps
+- dotenv
+- Nodemon
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🚀 Installation and Usage
 
-### Code Splitting
+Follow these steps to run the project locally:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+<img src="image-11.png" alt="Installation Step 1" width="400" height="500">
+<img src="image-6.png" alt="Installation Step 2" width="400" height="200">
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 📸 Screenshots
 
-### Making a Progressive Web App
+### Homepage
+<img src="image-3.png" alt="Homepage Screenshot" width="500" height="300">
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Reservation Page
+<img src="image-4.png" alt="Reservation Page Screenshot" width="500" height="300">
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Contributions
 
-### Deployment
+<img src="image-10.png" alt="Screenshot 1" width="500" height="400">
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Contacts
 
-### `npm run build` fails to minify
+<img src="image-8.png" alt="Screenshot 2" width="500" height="400">
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Acknowledgements
+
+<img src="image-9.png" alt="Screenshot 3" width="500" height="400">

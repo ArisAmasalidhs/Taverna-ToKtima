@@ -15,41 +15,41 @@ function App() {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Load token and user info on mount
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
+    const initializeAuth = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setIsLoading(false);
+        return;
+      }
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      console.log("Axios default header set on load:", axios.defaults.headers.common["Authorization"]);
-    } else {
-      delete axios.defaults.headers.common["Authorization"];
-    }
-  }, [user]);
-
-  useEffect(() => {
-    const rehydrateUser = async () => {
       try {
-        const token = localStorage.getItem("token");
-        console.log("Token from localStorage during rehydrateUser:", token);
-
-        if (!token) {
-          setIsLoading(false);
-          return;
-        }
-
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-        const response = await axios.get("/api/auth/user");
-        setUser(response.data);
+        const { data } = await axios.get("/api/auth/user");
+        setUser(data);
       } catch (error) {
-        console.error("Error rehydrating user:", error.message);
         localStorage.removeItem("token");
+        delete axios.defaults.headers.common["Authorization"];
       } finally {
         setIsLoading(false);
       }
     };
 
-    rehydrateUser();
+    initializeAuth();
   }, []);
+
+  const handleLogin = async (token) => {
+    localStorage.setItem("token", token);
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    try {
+      const { data } = await axios.get("/api/auth/user");
+      setUser(data);
+    } catch (error) {
+      console.error("Error fetching user after login:", error);
+      localStorage.removeItem("token");
+      delete axios.defaults.headers.common["Authorization"];
+    }
+  };
 
   const handleLogout = () => {
     setUser(null);
@@ -57,29 +57,6 @@ function App() {
     delete axios.defaults.headers.common["Authorization"];
   };
 
-  const handleLogin = async (token) => {
-    try {
-      if (!token) {
-        console.error("No token provided to handleLogin");
-        return;
-      }
-
-      localStorage.setItem("token", token);
-      console.log("Stored token in localStorage:", localStorage.getItem("token"));
-
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      console.log("Axios Authorization Header After Login:", axios.defaults.headers.common["Authorization"]);
-
-      const response = await axios.get("/api/auth/user");
-      console.log("User fetched after login:", response.data); // Debug log
-      setUser(response.data);
-    } catch (error) {
-      console.error("Error fetching user after login:", error.message);
-      localStorage.removeItem("token"); // Clear invalid token
-    }
-  };
-
-  // ProtectedRoute definition
   const ProtectedRoute = ({ children }) => {
     const location = useLocation();
     if (isLoading) return null;
@@ -90,7 +67,6 @@ function App() {
     return children;
   };
 
-  // AdminRoute definition
   const AdminRoute = ({ children }) => {
     if (isLoading) return null;
     if (!user || user.role !== "admin") {

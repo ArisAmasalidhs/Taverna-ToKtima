@@ -17,24 +17,23 @@ const LoginRegisterPage = ({ setUser }) => {
     try {
       const url = isRegistering ? "/api/auth/register" : "/api/auth/login";
       const { data } = await axios.post(url, form);
-  
+
       if (isRegistering) {
         alert("Registered successfully! Please login.");
         setIsRegistering(false);
       } else {
         const token = data.token; // Ensure the token exists here
-        console.log("Token received from login API:", token); // Debug log
-  
+
         if (!token) {
           console.error("Token is missing from the response");
           alert("Login failed: No token received");
           return;
         }
-  
+
         // Call the parent function to handle login
         setUser(data);
         localStorage.setItem("token", token);
-        console.log("Token stored in localStorage:", localStorage.getItem("token"));
+        // navigate to the homepage after successful login
         navigate("/");
       }
     } catch (error) {
@@ -42,7 +41,7 @@ const LoginRegisterPage = ({ setUser }) => {
       alert(error.response?.data?.message || "Something went wrong!");
     }
   };
-  
+
   return (
     <section className="hero">
       <video autoPlay loop muted playsInline className="back-video">

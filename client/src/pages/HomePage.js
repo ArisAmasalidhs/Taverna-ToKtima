@@ -307,6 +307,7 @@ const HomePage = () => {
               Authentic Greek Comfort Food and Restaurant in Syros | Taverna To
               Ktima
             </p>
+            <p>WebPage Created By Aristeidis Amasalidis</p>
           </div>
           <div className="homepage-social-icons">
             <a href="https://facebook.com">
