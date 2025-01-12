@@ -1,6 +1,6 @@
 # 🍽️ Restaurant Website - Το Κτήμα
 
-<img src="assets/GreekTaverna-Logo.png" alt="Restaurant Logo" width="400" height="300">
+<img src="client/src/assets/GreekTaverna-Logo.png" alt="Restaurant Logo" width="400" height="300">
 
 Welcome to the official repository for our restaurant **Το Κτήμα**, a fully responsive and dynamic website crafted for a premium restaurant experience. This project showcases clean design, seamless functionality, and an adaptive layout suitable for all devices.
 
@@ -45,33 +45,33 @@ Welcome to the official repository for our restaurant **Το Κτήμα**, a ful
 
 Follow these steps to run the project locally:
 
-<img src="assets/image-11.png" alt="Installation Step 1" width="400" height="500">
-<img src="assets/image-6.png" alt="Installation Step 2" width="400" height="200">
+<img src="client/src/assets/image-11.png" alt="Installation Step 1" width="400" height="500">
+<img src="client/src/assets/image-6.png" alt="Installation Step 2" width="400" height="200">
 
 ---
 
 ## 📸 Screenshots
 
 ### Homepage
-<img src="assets/image-3.png" alt="Homepage Screenshot" width="500" height="300">
+<img src="client/src/assets/image-3.png" alt="Homepage Screenshot" width="500" height="300">
 
 ### Reservation Page
-<img src="assets/image-4.png" alt="Reservation Page Screenshot" width="500" height="300">
+<img src="client/src/assets/image-4.png" alt="Reservation Page Screenshot" width="500" height="300">
 
 ---
 
 ## Contributions
 
-<img src="assets/image-10.png" alt="Screenshot 1" width="500" height="400">
+<img src="client/src/assets/image-10.png" alt="Screenshot 1" width="500" height="400">
 
 ---
 
 ## Contacts
 
-<img src="assets/image-8.png" alt="Screenshot 2" width="500" height="400">
+<img src="client/src/assets/image-8.png" alt="Screenshot 2" width="500" height="400">
 
 ---
 
 ## Acknowledgements
 
-<img src="assets/image-9.png" alt="Screenshot 3" width="500" height="400">
+<img src="client/src/assets/image-9.png" alt="Screenshot 3" width="500" height="400">
