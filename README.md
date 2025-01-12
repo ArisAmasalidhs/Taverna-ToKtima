@@ -41,30 +41,6 @@ Welcome to the official repository for our restaurant **Το Κτήμα**, a ful
 
 ---
 
-## 🛠️ Technologies Used
-
-### Frontend
-- React.js
-- React Router
-- Axios
-- CSS
-
-### Backend
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-
-### Security
-- JWT (JSON Web Tokens)
-- bcrypt.js
-
-### DevOps
-- dotenv
-- Nodemon
-
----
-
 ## 🚀 Installation and Usage
 
 Follow these steps to run the project locally:
