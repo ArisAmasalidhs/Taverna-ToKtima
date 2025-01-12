@@ -1,6 +1,6 @@
 # 🍽️ Restaurant Website - Το Κτήμα
 
-<img src="src/assets/GreekTaverna-Logo.png" alt="Restaurant Logo" width="400" height="300">
+<img src="./client/src/assets/GreekTaverna-Logo.png" alt="Restaurant Logo" width="400" height="300">
 
 Welcome to the official repository for our restaurant **Το Κτήμα**, a fully responsive and dynamic website crafted for a premium restaurant experience. This project showcases clean design, seamless functionality, and an adaptive layout suitable for all devices.
 
