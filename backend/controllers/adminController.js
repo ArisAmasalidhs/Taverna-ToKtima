@@ -88,7 +88,7 @@ const updateCarouselImage = async (req, res) => {
     );
 
     if (!updatedImage) {
-      return res.status(404).json({ message: "Carousel image not found." });
+      return res.status(404).json({ message: "Carousel images not found." });
     }
 
     res.status(200).json(updatedImage);
