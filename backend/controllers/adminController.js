@@ -21,7 +21,7 @@ const addCarouselImage = async (req, res) => {
 
     // Validate carousel section
     if (!["top", "about", "bottom"].includes(carouselSection)) {
-      return res.status(400).json({ message: "Invalid carousel section." });
+      return res.status(400).json({ message: "Invalid carousel sections." });
     }
 
     // Check if a file is uploaded
