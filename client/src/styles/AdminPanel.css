@@ -80,13 +80,14 @@ ul {
 ul li {
   padding: 15px;
   border: 1px solid #ddd;
-  margin: 10px 0;
+  margin: 10px auto;
   border-radius: 8px;
   background-color: #ffffff;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  width: 60%;
 }
 
 /* Button Container */
