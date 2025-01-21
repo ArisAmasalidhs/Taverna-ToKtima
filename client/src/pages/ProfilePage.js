@@ -62,6 +62,24 @@ const ProfilePage = ({ user, setUser }) => {
     }
   };
 
+  const handleDeleteReservation = async (reservationId) => {
+    const confirmation = window.confirm("Are you sure you want to delete this reservation?");
+    if (!confirmation) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+
+      await axios.delete(`/api/reservations/${reservationId}`, config);
+
+      setReservations(reservations.filter((res) => res._id !== reservationId));
+      alert("Reservation deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting reservation:", error);
+      alert("Failed to delete reservation. Please try again.");
+    }
+  };
+
   const handleDeleteReview = async (reviewId) => {
     const confirmation = window.confirm("Are you sure you want to delete this review?");
     if (!confirmation) return;
@@ -175,6 +193,9 @@ const ProfilePage = ({ user, setUser }) => {
                 Status: <strong>{reservation.status}</strong>
               </p>
               <p className="status-message">{getReservationStatusMessage(reservation.status)}</p>
+              <button onClick={() => handleDeleteReservation(reservation._id)}>
+                Delete Reservation
+              </button>
             </div>
           ))
         )}
